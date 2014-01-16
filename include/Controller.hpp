@@ -10,7 +10,7 @@ class View;
 class Controller
 {
 public:
-  Controller (const std::string & name, View & view);
+  Controller (const std::string & name, View *view);
   virtual ~Controller ();
 
   virtual void manageEvent (const sf::Event event) = 0;
@@ -20,9 +20,9 @@ public:
 
 private:
   std::string name;
-  View & view;
+  View *view;
   
-  static std::map<std::string, Controller&> controllers;
+  static std::map<std::string, Controller*> controllers;
 };
 
 #endif /* INCLUDED_CONTROLLER_HPP */

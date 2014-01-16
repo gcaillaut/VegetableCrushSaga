@@ -8,8 +8,10 @@ class Controller;
 class View
 {
 public:
-  View (const std::string name, Controller & controller);
+  View (const std::string name);
   virtual ~View ();
+
+  void setController (Controller *c);
 
   void update () const;
   void clear ();
@@ -18,7 +20,7 @@ public:
   std::string getName () const;
    
 private:
-  Controller & controller;
+  Controller *controller;
   std::string name;
 };
 
