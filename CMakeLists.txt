@@ -8,8 +8,6 @@ if(CMAKE_BUILD_TYPE STREQUAL "")
 endif()
 # (you can also set it on the command line: -D CMAKE_BUILD_TYPE=Release)
 
-include_directories("${PROJECT_BINARY_DIR}/include")
-
 # Flags
 if (CMAKE_CXX_COMPILER MATCHES ".*clang")
    set(CMAKE_COMPILER_IS_CLANGXX 1)
