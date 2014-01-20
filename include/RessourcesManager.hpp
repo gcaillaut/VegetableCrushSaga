@@ -9,7 +9,7 @@
  * \brief Manage ressources of type T.
  * Ressources are strored into std::shared_ptr.
  */
-template <typename T, typename Key, typename ...Args>
+template <typename T, typename Key>
 class RessourcesManager
 {
 public:
@@ -19,6 +19,7 @@ public:
   ~RessourcesManager ()
   {}
 
+  template <typename ...Args>
   void createRessource (const Key & key, Args... args)
   {
     ressources[key] = std::make_shared<T>(args...);

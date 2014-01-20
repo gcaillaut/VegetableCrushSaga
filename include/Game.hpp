@@ -11,10 +11,10 @@
 
 class Item;
 
+typedef RessourcesManager<sf::Texture, std::string> TexturesManager;
+
 class Game
 {
-  typedef RessourcesManager<sf::Texture, std::string> TexturesManager ;
-
 public:
   Game ();
   ~Game ();
