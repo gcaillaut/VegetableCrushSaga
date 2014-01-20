@@ -7,11 +7,14 @@
 
 #include "View.hpp"
 #include "Factory.hpp"
+#include "RessourcesManager.hpp"
 
 class Item;
 
 class Game
 {
+  typedef RessourcesManager<sf::Texture, std::string> TexturesManager ;
+
 public:
   Game ();
   ~Game ();
@@ -23,12 +26,16 @@ public:
 
   const Factory<Item>& getItemFactory () const;
 
+  TexturesManager& getTexturesManager ();
+
   sf::RenderWindow& getWindow ();
    
 private:
   std::unique_ptr<sf::RenderWindow> window;
   View *current_view;
+
   Factory<Item> item_factory;
+  TexturesManager textures_manager;
 };
 
 extern Game game;

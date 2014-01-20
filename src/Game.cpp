@@ -39,6 +39,11 @@ const Factory<Item>& Game::getItemFactory () const
   return item_factory;
 }
 
+TexturesManager& Game::getTexturesManager ()
+{
+  return textures_manager;
+}
+
 sf::RenderWindow& Game::getWindow ()
 {
   return *window;
