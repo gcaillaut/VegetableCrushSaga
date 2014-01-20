@@ -1,11 +1,20 @@
 #include "Game.hpp"
+#include "Item.hpp"
+#include "Factory.hpp"
+
+#include "BasicItem.hpp"
+#include "createFunc.hpp"
 
 Game game;
+
 
 Game::Game () :
   window(nullptr),
   current_view(nullptr)
-{}
+{
+  item_factory.registerObject("Salad", &createSalad);
+  item_factory.registerObject("Carrot", &createCarrot);
+}
 
 Game::~Game ()
 {}
@@ -23,6 +32,11 @@ View* Game::getCurrentView () const
 void Game::setCurrentView (View *view)
 {
   current_view = view;
+}
+
+const Factory<Item>& Game::getItemFactory () const 
+{
+  return item_factory;
 }
 
 sf::RenderWindow& Game::getWindow ()

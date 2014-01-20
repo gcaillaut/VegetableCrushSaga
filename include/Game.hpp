@@ -6,6 +6,9 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 
 #include "View.hpp"
+#include "Factory.hpp"
+
+class Item;
 
 class Game
 {
@@ -18,11 +21,14 @@ public:
   View* getCurrentView () const;
   void setCurrentView (View *view);
 
+  const Factory<Item>& getItemFactory () const;
+
   sf::RenderWindow& getWindow ();
    
 private:
   std::unique_ptr<sf::RenderWindow> window;
   View *current_view;
+  Factory<Item> item_factory;
 };
 
 extern Game game;

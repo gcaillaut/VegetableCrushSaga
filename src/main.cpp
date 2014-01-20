@@ -4,6 +4,8 @@
 #include "TestView.hpp"
 #include "TestController.hpp"
 
+#include "Factory.hpp"
+
 int main ()
 {
   game.init();
