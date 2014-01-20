@@ -14,7 +14,7 @@ public:
   virtual ~Controller ();
 
   virtual void manageEvent (const sf::Event event) = 0;
-  void setCurrentView () const;
+  void setView () const;
 
   std::string getName () const;
 

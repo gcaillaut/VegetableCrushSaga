@@ -15,7 +15,7 @@ Controller::Controller (const std::string & name, View *view) :
 Controller::~Controller ()
 {}
 
-void Controller::setCurrentView () const
+void Controller::setView () const
 {
   game.setCurrentView(view);
 }
