@@ -1,35 +1,28 @@
 #include <iostream>
 
+#include "Graphic.hpp"
+#include "GraphicView.hpp"
+#include "GraphicController.hpp"
 #include "Game.hpp"
-#include "TestView.hpp"
-#include "TestController.hpp"
-
-#include "RessourcesManager.hpp"
-#include "Factory.hpp"
 
 int main ()
 {
-  /*
   game.init();
 
-  Test test;
-  TestView view(&test, "Test");
-  TestController controller(&view, &test);
+  unsigned int cellSize = 100;
 
-  while (game.getWindow().isOpen())
+  Graphic graphic(game.getWindow().getSize().x / cellSize, game.getWindow().getSize().y / cellSize, cellSize);
+  GraphicController graphicController(&graphic);
+  GraphicView graphicView(&graphicController, &graphic, game.getWindow());
+
+  while (graphicView.isRunning())
     {
-      view.update();
-      view.clear();
-      view.draw();
-    }
-  */
-  RessourcesManager<int, std::string> manager;
-  manager.createRessource("a");
-  manager.createRessource("b");
+      graphicView.sendEvents();
 
-  std::cout << *manager.getRessource("a") << std::endl; // ok
-  manager.eraseRessource("a");
-  std::cout << *manager.getRessource("a") << std::endl; // fail
-  
+      graphicView.clear();
+      graphicView.draw();
+      graphicView.display();
+    }
+
   return 0;
 }

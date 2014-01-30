@@ -39,7 +39,7 @@ public:
         ressources.erase(it);
       }
   }
-  
+
 private:
   std::map<Key, std::shared_ptr<T>> ressources;
 };

@@ -1,28 +1,24 @@
-#ifndef INCLUDED_CONTROLLER_HPP
-#define INCLUDED_CONTROLLER_HPP
-
-#include <map>
-
-#include <SFML/Window/Event.hpp>
+#ifndef INCLUDED_CONTROLLER_H
+#define INCLUDED_CONTROLLER_H
 
 class View;
 
 class Controller
 {
 public:
-  Controller (const std::string & name, View *view);
-  virtual ~Controller ();
+  Controller ();
+  virtual ~Controller () = 0;
 
-  virtual void manageEvent (const sf::Event event) = 0;
-  void setView () const;
+  virtual void onClick (const float x, const float y) = 0;
+  virtual void onClickRelease (const float x, const float y) = 0;
+  virtual void onLostFocus () = 0;
+  virtual void onGainedFocus () = 0;
 
-  std::string getName () const;
+  void setView (View *view);
 
 private:
-  std::string name;
-  View *view;
-  
-  static std::map<std::string, Controller*> controllers;
+  View *current_view;
 };
 
-#endif /* INCLUDED_CONTROLLER_HPP */
+
+#endif /* INCLUDED_CONTROLLER_H */

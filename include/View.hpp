@@ -1,27 +1,24 @@
-#ifndef INCLUDED_VIEW_HPP
-#define INCLUDED_VIEW_HPP
-
-#include <string>
+#ifndef INCLUDED_VIEW_H
+#define INCLUDED_VIEW_H
 
 class Controller;
 
 class View
 {
-public:
-  View (const std::string name);
-  virtual ~View ();
+	public:
+		View (Controller *controller);
+		virtual ~View () = 0;
 
-  void setController (Controller *c);
+		virtual void clear () = 0;
+		virtual void draw () = 0;
+		virtual void display () = 0;
 
-  void update () const;
-  void clear ();
-  virtual void draw () = 0;
+		virtual void sendEvents () = 0;
 
-  std::string getName () const;
-   
-private:
-  Controller *controller;
-  std::string name;
+	protected:
+		Controller *controller;
 };
 
-#endif /* INCLUDED_VIEW_HPP */
+
+
+#endif /* INCLUDED_VIEW_H */

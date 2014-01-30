@@ -7,7 +7,7 @@
 
 #include "View.hpp"
 #include "Factory.hpp"
-#include "RessourcesManager.hpp"
+#include "RessourceManager.hpp"
 
 class Item;
 
