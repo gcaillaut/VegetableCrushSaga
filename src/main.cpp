@@ -9,9 +9,7 @@ int main ()
 {
   game.init();
 
-  unsigned int cellSize = 100;
-
-  Graphic graphic(game.getWindow().getSize().x / cellSize, game.getWindow().getSize().y / cellSize, cellSize);
+  Graphic graphic(100, 100, 10, 10, 50);
   GraphicController graphicController(&graphic);
   GraphicView graphicView(&graphicController, &graphic, game.getWindow());
 

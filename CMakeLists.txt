@@ -39,7 +39,7 @@ INCLUDE_DIRECTORIES( ./ )
 FILE(
   GLOB_RECURSE
   PROJECT_SOURCES
-  src/*
+  src/* include/*
   )
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)

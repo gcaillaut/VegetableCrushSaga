@@ -11,7 +11,7 @@
 class Graphic
 {
 public:
-  Graphic(unsigned int width, unsigned int height, unsigned int cell_size);
+  Graphic(unsigned int x, unsigned int y, unsigned int width, unsigned int height, unsigned int cell_size);
   virtual ~Graphic();
 
   void setClickPosition(const float x, const float y);

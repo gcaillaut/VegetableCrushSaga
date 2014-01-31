@@ -1,7 +1,7 @@
 #include <string>
 #include <cmath>
 #include <SFML/System/Vector2.hpp>
-#include <iostream>
+
 #include "Item.hpp"
 
 #define PI 3.14159265358979323846
@@ -16,7 +16,7 @@ Item::~Item ()
 {}
 
 void Item::goTo (const sf::Vector2f & pos)
-{
+{  
   sf::Vector2f current = getPosition();
 
   if (current == pos)
@@ -25,7 +25,7 @@ void Item::goTo (const sf::Vector2f & pos)
       return;
     }
 
-  int speedx(15);
+  int speedx(18);
   int speedy(8);
 
   moving = true;
@@ -37,7 +37,7 @@ void Item::goTo (const sf::Vector2f & pos)
   else if (current.x != pos.x)
     {
       int dir(current.x < pos.x ? 1 : -1);
-      move(dir * speedx, 0);
+	  move(dir * speedx, 0);
     }
 
   // Si pos.y == current.y, déplacement fini
@@ -48,8 +48,10 @@ void Item::goTo (const sf::Vector2f & pos)
   else if (current.y != pos.y)
     {
       int dir(current.y < pos.y ? 1 : -1);
-      move(0, dir * speedy);
+	  move(0, dir * speedy);
     }
+
+  rotate(10.f);
 }
 
 std::string Item::getName () const
