@@ -87,6 +87,16 @@ unsigned int Board::getCellSize () const
   return cell_size;
 }
 
+unsigned Board::posToInd (const sf::Vector2u pos) const
+{
+	return pos.x / cell_size + pos.y / cell_size * width;
+}
+
+unsigned Board::posToInd (const unsigned x, const unsigned y) const
+{
+	return x / cell_size + y / cell_size * width;
+}
+
 void Board::swapItems (const unsigned int src, const unsigned int dest)
 {
   std::swap(items[src], items[dest]);

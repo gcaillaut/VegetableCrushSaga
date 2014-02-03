@@ -21,6 +21,9 @@ public:
   unsigned int getHeight () const;
   unsigned int getCellSize () const;
 
+	unsigned posToInd (const sf::Vector2u pos) const;
+	unsigned posToInd (const unsigned x, const unsigned y) const;
+
   void swapItems (const unsigned int src, const unsigned int dest);
   bool areNext(unsigned int src, unsigned int dest) const;
   void resetSelected(unsigned int selected);
