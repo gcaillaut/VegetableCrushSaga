@@ -7,17 +7,17 @@ class Graphic;
 
 class GraphicController: public Controller
 {
-public:
-  GraphicController (Graphic *graphic);
-  virtual ~GraphicController ();
+  public:
+	GraphicController (Graphic *graphic);
+	virtual ~GraphicController ();
 
-  virtual void onClick (const float x, const float y);
-  virtual void onClickRelease (const float x, const float y);
-  virtual void onLostFocus ();
-  virtual void onGainedFocus ();
+	virtual void onClick (const float x, const float y);
+	virtual void onClickRelease (const float x, const float y);
+	virtual void onLostFocus ();
+	virtual void onGainedFocus ();
 
-private:
-  Graphic *graphic;
+  private:
+	Graphic *graphic;
 };
 
 #endif // GRAPHIC_CONTROLLER_HPP

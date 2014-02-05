@@ -25,8 +25,8 @@ void Item::goTo (const sf::Vector2f & pos)
       return;
     }
 
-  int speedx(18);
-  int speedy(8);
+  int speedx(15);
+  int speedy(10);
 
   moving = true;
 
@@ -49,9 +49,7 @@ void Item::goTo (const sf::Vector2f & pos)
     {
       int dir(current.y < pos.y ? 1 : -1);
 	  move(0, dir * speedy);
-    }
-
-  rotate(10.f);
+	}
 }
 
 std::string Item::getName () const

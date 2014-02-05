@@ -6,6 +6,7 @@
 #include <vector>
 
 #include <SFML/Graphics/Rect.hpp>
+#include <SFML/Graphics/RectangleShape.hpp>
 
 class Item;
 
@@ -20,11 +21,12 @@ public:
   std::unique_ptr<Item>& getItemAt (const unsigned int ind);
 
   unsigned int getTotalSize () const;
-  unsigned int getRows () const;
-  unsigned int getCols () const;
+  unsigned int getRowsCount () const;
+  unsigned int getColsCount () const;
   unsigned int getCellSize () const;
 
   const sf::Rect<unsigned int>& getDimensions () const;
+  const sf::RectangleShape& getBoardShape() const;
 
   void swapItems (const unsigned int src, const unsigned int dest);
   bool areNext(unsigned int src, unsigned int dest) const;
@@ -55,6 +57,8 @@ private:
   std::vector<std::string> available_items;
 
   std::minstd_rand0 generator;
+
+  sf::RectangleShape board_shape;
 
   void randomFill (); 
   void changeItem(unsigned int x, unsigned int y);

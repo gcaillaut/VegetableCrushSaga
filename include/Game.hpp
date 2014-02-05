@@ -25,9 +25,7 @@ public:
   void setCurrentView (View *view);
 
   const Factory<Item>& getItemFactory () const;
-
   TexturesManager& getTexturesManager ();
-
   sf::RenderWindow& getWindow ();
    
 private:

@@ -19,6 +19,12 @@ Board::Board (unsigned int x, unsigned int y, unsigned int width, unsigned int h
 {
   dimensions = {x, y, width*cell_size, height*cell_size};
 
+  board_shape.setPosition(x, y);
+  board_shape.setFillColor(sf::Color::White);
+  board_shape.setOutlineColor(sf::Color::Green);
+  board_shape.setOutlineThickness(5);
+  board_shape.setSize(sf::Vector2f(dimensions.width, dimensions.height));
+
   randomFill();
 }
 
@@ -75,12 +81,12 @@ unsigned int Board::getTotalSize () const
   return total_size;
 }
 
-unsigned int Board::getRows () const
+unsigned int Board::getRowsCount () const
 {
   return rows;
 }
 
-unsigned int Board::getCols () const
+unsigned int Board::getColsCount () const
 {
   return cols;
 }
@@ -93,6 +99,11 @@ unsigned int Board::getCellSize () const
 const sf::Rect<unsigned int>& Board::getDimensions() const
 {
   return dimensions;
+}
+
+const sf::RectangleShape &Board::getBoardShape() const
+{
+  return board_shape;
 }
 
 void Board::swapItems (const unsigned int src, const unsigned int dest)

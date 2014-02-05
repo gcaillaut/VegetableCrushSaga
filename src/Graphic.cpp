@@ -7,7 +7,8 @@
 
 #include "Item.hpp"
 
-Graphic::Graphic(unsigned int x, unsigned int y, unsigned int width, unsigned int height, unsigned int cell_size) :
+Graphic::Graphic(unsigned int x, unsigned int y, unsigned int width, unsigned int height,
+				 unsigned int cell_size) :
   board(x, y, width, height, cell_size),
   first_selected(false),
   second_selected(false),
@@ -27,7 +28,7 @@ void Graphic::setClickPosition(const float x, const float y)
   unsigned int cell_size(board.getCellSize());
   unsigned int selected((static_cast<unsigned int>(x) - board.getDimensions().left) / cell_size
 						+ (static_cast<unsigned int>(y) - board.getDimensions().top) / cell_size
-						* board.getRows());
+						* board.getRowsCount());
 
   if (selected < board.getTotalSize())
   {
@@ -43,7 +44,7 @@ void Graphic::setClickPosition(const float x, const float y)
 	  second_selected = true;
 	}
 
-	board.getItemAt(selected)->setColor(sf::Color::Yellow);
+	board.getItemAt(selected)->setColor(sf::Color::Blue);
   }
 }
 
@@ -57,7 +58,7 @@ void Graphic::setReleasePosition(const float x, const float y)
   unsigned int cell_size(board.getCellSize());
   unsigned int selected((static_cast<int>(x) - board.getDimensions().left) / cell_size
 						+ (static_cast<int>(y) - board.getDimensions().top) / cell_size
-						* board.getRows());
+						* board.getRowsCount());
 
   if (selected < board.getTotalSize())
   {
@@ -65,7 +66,6 @@ void Graphic::setReleasePosition(const float x, const float y)
 	{
 	  second_item = selected;
 	  second_selected = true;
-	  board.getItemAt(selected)->setColor(sf::Color::Blue);
 	}
   }
 
