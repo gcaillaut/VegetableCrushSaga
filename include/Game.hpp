@@ -34,6 +34,8 @@ private:
 
   Factory<Item> item_factory;
   TexturesManager textures_manager;
+
+  void addTexture(std::string name);
 };
 
 extern Game game;

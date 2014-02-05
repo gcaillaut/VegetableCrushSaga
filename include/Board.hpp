@@ -51,8 +51,8 @@ public:
 private:
   unsigned int cell_size;
   unsigned int total_size;
-  unsigned int rows;
   unsigned int cols;
+  unsigned int rows;
 
   sf::Rect<unsigned int> dimensions;
 

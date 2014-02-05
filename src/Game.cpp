@@ -9,7 +9,6 @@
 
 Game game;
 
-
 Game::Game () :
   window(nullptr),
   current_view(nullptr)
@@ -24,22 +23,19 @@ void Game::init ()
 									sf::Style::Default & ~sf::Style::Resize));
   window->setFramerateLimit(60);
 
-  textures_manager.createRessource("Salad");
-  textures_manager.getRessource("Salad")->loadFromFile("assets/item3.png");
+  addTexture("Carrot");
+  addTexture("Strawberry");
+  addTexture("Mushroom");
+  addTexture("Aubergine");
+  addTexture("Banana");
+  addTexture("Watermelon");
 
-  textures_manager.createRessource("Carrot");
-  textures_manager.getRessource("Carrot")->loadFromFile("assets/item1.png");
-
-  textures_manager.createRessource("PATATO");
-  textures_manager.getRessource("PATATO")->loadFromFile("assets/item2.png");
-
-  textures_manager.createRessource("Kiwi");
-  textures_manager.getRessource("Kiwi")->loadFromFile("assets/item4.png");
-
-  item_factory.registerObject("Salad", &createSalad);
-  item_factory.registerObject("Carrot", &createCarrot);
-  item_factory.registerObject("PATATO", &createPATATO);
-  item_factory.registerObject("Kiwi", &createKiwi);
+  item_factory.registerObject("Carrot", createCarrot);
+  item_factory.registerObject("Strawberry", createStrawberry);
+  item_factory.registerObject("Mushroom", createMushroom);
+  item_factory.registerObject("Aubergine", createAubergine);
+  item_factory.registerObject("Banana", createBanana);
+  item_factory.registerObject("Watermelon", createWatermelon);
 }
 
 View* Game::getCurrentView () const
@@ -65,4 +61,14 @@ TexturesManager& Game::getTexturesManager ()
 sf::RenderWindow& Game::getWindow ()
 {
   return *window;
+}
+
+void Game::addTexture(std::string name)
+{
+  static unsigned int counter = 1;
+
+  textures_manager.createRessource(name);
+  textures_manager.getRessource(name)->loadFromFile("assets/item" + std::to_string(counter) + ".png");
+
+  ++counter;
 }
