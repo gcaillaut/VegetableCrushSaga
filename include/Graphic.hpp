@@ -28,8 +28,8 @@ class Graphic
   private:
 	Board board;
 
-	unsigned int first_item;
-	unsigned int second_item;
+	sf::Vector2u first_item;
+	sf::Vector2u second_item;
 
 	bool first_selected;
 	bool second_selected;
