@@ -1,8 +1,8 @@
-CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
+cmake_minimum_required(VERSION 2.6)
 project(VegetableCrushSaga CXX)
 
-SET(PROJECT_NAME "MVC")
-SET(EXECUTABLE_NAME "Game")
+set(PROJECT_NAME "VegetableCrushSaga")
+set(EXECUTABLE_NAME "Game")
 
 # Enable debug symbols by default
 if(CMAKE_BUILD_TYPE STREQUAL "")
@@ -10,9 +10,9 @@ if(CMAKE_BUILD_TYPE STREQUAL "")
 endif()
 
 # Flags
-if (CMAKE_CXX_COMPILER MATCHES "clang")
+if(CMAKE_CXX_COMPILER MATCHES "clang")
   set(CMAKE_COMPILER_IS_CLANGXX 1)
-endif ()
+endif()
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_COMPILER_IS_CLANGXX)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
@@ -26,20 +26,19 @@ if(CMAKE_BUILD_TYPE STREQUAL "Release")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O2 -Os")
 endif()
 
-SET(CMAKE_EXE_LINKER_FLAGS  "-s")
+set(CMAKE_EXE_LINKER_FLAGS  "-s")
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_modules" ${CMAKE_MODULE_PATH})
 
 
-PROJECT(${PROJECT_NAME})
-INCLUDE_DIRECTORIES( ./ )
+project(${PROJECT_NAME})
 
 # -------------------
 # Source files
 
-FILE(
+file(
   GLOB_RECURSE
   PROJECT_SOURCES
-  src/*
+  src/* include/*
   )
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
@@ -47,10 +46,12 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 # -------------------
 # External libs
 
-SET(GAME_LIBS -lsfml-network -lsfml-system -lsfml-window -lsfml-graphics)
+set(GAME_LIBS -lsfml-system -lsfml-window -lsfml-graphics)
 
 # -------------------
 # Executable & Link
 
-ADD_EXECUTABLE( "${EXECUTABLE_NAME}" ${PROJECT_SOURCES} )
-TARGET_LINK_LIBRARIES( "${EXECUTABLE_NAME}" ${GAME_LIBS} )
+add_executable( ${EXECUTABLE_NAME} ${PROJECT_SOURCES} )
+target_link_libraries( ${EXECUTABLE_NAME} ${GAME_LIBS} )
+
+file(COPY ${CMAKE_SOURCE_DIR}/assets DESTINATION ${CMAKE_BINARY_DIR})

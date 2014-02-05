@@ -1,6 +1,8 @@
 #include "GraphicController.hpp"
 #include "Graphic.hpp"
 
+#include <iostream>
+
 GraphicController::GraphicController(Graphic *graphic): Controller(), graphic(graphic)
 {
 }

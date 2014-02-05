@@ -6,6 +6,7 @@
 #include "Graphic.hpp"
 #include "Item.hpp"
 
+#include <iostream>
 
 GraphicView::GraphicView(Controller *controller, Graphic *graphic, sf::RenderWindow &window) :
   View(controller),
@@ -27,6 +28,8 @@ void GraphicView::clear()
 void GraphicView::draw()
 {
   graphic->updateGame();
+
+  window.draw(graphic->getBoard().getBoardShape());
   
   auto& items = graphic->getBoard().getItems();
   for (auto& item: items)
@@ -74,11 +77,11 @@ void GraphicView::sendEvents()
           break;
 
         case sf::Event::LostFocus:
-          controller->onLostFocus();
+		  controller->onLostFocus();
           break;
           
         case sf::Event::GainedFocus:
-          controller->onGainedFocus();
+		  controller->onGainedFocus();
           break;
 
         default:

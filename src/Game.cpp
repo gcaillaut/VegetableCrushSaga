@@ -20,25 +20,27 @@ Game::~Game ()
 
 void Game::init ()
 {
-  window.reset(new sf::RenderWindow(sf::VideoMode(800, 600), "Test", sf::Style::Default & ~sf::Style::Resize));
+  window.reset(new sf::RenderWindow(sf::VideoMode(1280, 720), "Test",
+									sf::Style::Default & ~sf::Style::Resize));
+  window->setFramerateLimit(60);
 
   textures_manager.createRessource("Salad");
-  textures_manager.getRessource("Salad")->loadFromFile("assets/item3.jpg");
+  textures_manager.getRessource("Salad")->loadFromFile("assets/item3.png");
 
   textures_manager.createRessource("Carrot");
-  textures_manager.getRessource("Carrot")->loadFromFile("assets/item1.jpg");
+  textures_manager.getRessource("Carrot")->loadFromFile("assets/item1.png");
 
   textures_manager.createRessource("PATATO");
-  textures_manager.getRessource("PATATO")->loadFromFile("assets/item2.jpg");
+  textures_manager.getRessource("PATATO")->loadFromFile("assets/item2.png");
 
   textures_manager.createRessource("Kiwi");
-  textures_manager.getRessource("Kiwi")->loadFromFile("assets/item4.jpg");
- 
+  textures_manager.getRessource("Kiwi")->loadFromFile("assets/item4.png");
+
   item_factory.registerObject("Salad", &createSalad);
   item_factory.registerObject("Carrot", &createCarrot);
   item_factory.registerObject("PATATO", &createPATATO);
   item_factory.registerObject("Kiwi", &createKiwi);
-  }
+}
 
 View* Game::getCurrentView () const
 {

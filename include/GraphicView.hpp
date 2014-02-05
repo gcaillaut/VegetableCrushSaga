@@ -4,6 +4,9 @@
 #include "View.hpp"
 #include <SFML/Graphics/RenderWindow.hpp>
 
+#include <SFML/Graphics/Text.hpp>
+#include <SFML/Graphics/RectangleShape.hpp>
+
 class Graphic;
 
 class GraphicView: public View

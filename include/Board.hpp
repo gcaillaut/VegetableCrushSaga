@@ -5,21 +5,28 @@
 #include <random>
 #include <vector>
 
+#include <SFML/Graphics/Rect.hpp>
+#include <SFML/Graphics/RectangleShape.hpp>
+
 class Item;
 
 class Board
 {
 public:
-  Board (unsigned int width, unsigned int height, unsigned int cell_size);
+  Board (unsigned int x, unsigned int y, unsigned int width, unsigned int height,
+		 unsigned int cell_size);
   ~Board ();
 
   const std::vector<std::unique_ptr<Item>>& getItems () const;
   std::unique_ptr<Item>& getItemAt (const unsigned int ind);
 
   unsigned int getTotalSize () const;
-  unsigned int getWidth () const;
-  unsigned int getHeight () const;
+  unsigned int getRowsCount () const;
+  unsigned int getColsCount () const;
   unsigned int getCellSize () const;
+
+  const sf::Rect<unsigned int>& getDimensions () const;
+  const sf::RectangleShape& getBoardShape() const;
 
   void swapItems (const unsigned int src, const unsigned int dest);
   bool areNext(unsigned int src, unsigned int dest) const;
@@ -40,15 +47,18 @@ public:
 
 private:
   unsigned int cell_size;
-  unsigned int width;
-  unsigned int height;
   unsigned int total_size;
+  unsigned int rows;
+  unsigned int cols;
+
+  sf::Rect<unsigned int> dimensions;
 
   std::vector<std::unique_ptr<Item>> items;
-  //std::vector<bool> removed_items;
   std::vector<std::string> available_items;
 
   std::minstd_rand0 generator;
+
+  sf::RectangleShape board_shape;
 
   void randomFill (); 
   void changeItem(unsigned int x, unsigned int y);
