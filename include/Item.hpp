@@ -10,13 +10,15 @@ class Board;
 class Item : public sf::Sprite
 {
   public:
-	Item(std::string name);
+	Item(const std::string &name, const unsigned int points);
 	virtual ~Item ();
 
 	virtual void update(Board & board, sf::Vector2f pos) = 0;
 
 	void goTo (const sf::Vector2f & pos);
+
 	std::string getName () const;
+	unsigned int getValue () const;
 
 	void destroy ();
 	void repair () {destroyed = false;}
@@ -29,6 +31,8 @@ class Item : public sf::Sprite
 
   private:
 	const std::string name;
+
+	unsigned int value;
 
 	bool destroyed;
 	bool moving;

@@ -3,8 +3,8 @@
 #include "Board.hpp"
 #include "BasicItem.hpp"
 
-BasicItem::BasicItem (std::string name) :
-  Item(name)
+BasicItem::BasicItem (const std::string &name, const unsigned int points) :
+  Item(name, points)
 {}
 
 BasicItem::~BasicItem ()

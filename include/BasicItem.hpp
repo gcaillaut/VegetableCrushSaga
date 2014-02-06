@@ -8,7 +8,7 @@ class Board;
 class BasicItem : public Item
 {
 public:
-  BasicItem(std::string name);
+  BasicItem(const std::string &name, const unsigned int points);
   virtual ~BasicItem ();
 
   virtual void update(Board & board, sf::Vector2f pos);

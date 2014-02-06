@@ -4,10 +4,9 @@
 
 #include "Item.hpp"
 
-#define PI 3.14159265358979323846
-
-Item::Item (std::string name) : 
+Item::Item (const std::string &name, const unsigned int points) : 
   name(name),
+	value(points),
   destroyed(false),
   moving(false)
 {}
@@ -55,6 +54,11 @@ void Item::goTo (const sf::Vector2f & pos)
 std::string Item::getName () const
 {
   return name;
+}
+
+unsigned int Item::getValue () const
+{
+	return value;
 }
 
 void Item::destroy ()
