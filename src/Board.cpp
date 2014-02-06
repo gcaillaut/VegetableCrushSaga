@@ -174,8 +174,10 @@ void Board::fillBlanks()
 		}
 }
 
-void Board::update ()
+unsigned int Board::update ()
 {
+	last_move_value = 0;
+
   if (!areItemsMoving())
 		{
 			do {
@@ -191,6 +193,8 @@ void Board::update ()
 		}
 
   updatePositions();
+
+	return last_move_value;
 }
 
 void Board::updateLine (const unsigned int begin, const unsigned int end, const unsigned int offset)
@@ -234,6 +238,7 @@ void Board::markForRemoval (unsigned int begin, const unsigned int end, const un
   while (begin <= end)
 		{
 			items[begin]->destroy();
+			last_move_value += items[begin]->getValue();
 			begin += offset;
 		}
 }

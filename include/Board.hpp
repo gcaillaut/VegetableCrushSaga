@@ -43,7 +43,7 @@ public:
   /**
    * \brief Mets à jour le plateau.
    */
-  void update ();
+  unsigned int update ();
 
   void updatePositions();
   bool areItemsMoving();
@@ -62,6 +62,8 @@ private:
   std::minstd_rand0 generator;
 
   sf::RectangleShape board_shape;
+
+	unsigned int last_move_value;
 
   void randomFill (); 
   void changeItem(unsigned int x, unsigned int y);
