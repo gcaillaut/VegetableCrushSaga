@@ -13,6 +13,7 @@ public:
   virtual void onClickRelease (const float x, const float y) = 0;
   virtual void onLostFocus () = 0;
   virtual void onGainedFocus () = 0;
+	virtual void onMouseMotion (const float x, const float y) = 0;
 
   void setView (View *view);
 

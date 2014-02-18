@@ -7,7 +7,7 @@ class Graphic;
 
 class GraphicController: public Controller
 {
-  public:
+public:
 	GraphicController (Graphic *graphic);
 	virtual ~GraphicController ();
 
@@ -15,8 +15,9 @@ class GraphicController: public Controller
 	virtual void onClickRelease (const float x, const float y);
 	virtual void onLostFocus ();
 	virtual void onGainedFocus ();
+	virtual void onMouseMotion (const float x, const float y);
 
-  private:
+private:
 	Graphic *graphic;
 };
 

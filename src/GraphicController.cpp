@@ -37,3 +37,8 @@ void GraphicController::onGainedFocus()
 {
   graphic->setActive(true);
 }
+
+void GraphicController::onMouseMotion (const float x, const float y)
+{	
+	onClickRelease(x,y);
+}

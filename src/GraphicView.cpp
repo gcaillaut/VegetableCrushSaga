@@ -76,6 +76,10 @@ void GraphicView::sendEvents()
             }
           break;
 
+				case sf::Event::MouseMoved:
+					controller->onMouseMotion(event.mouseMove.x, event.mouseMove.y);
+					break;
+
         case sf::Event::LostFocus:
 		  controller->onLostFocus();
           break;
