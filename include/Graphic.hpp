@@ -39,6 +39,7 @@ private:
 	bool active_input;
 
 	unsigned int score;
+	unsigned int combo_wombo;
 
 	void registerMove(unsigned int source, unsigned int target);
 };

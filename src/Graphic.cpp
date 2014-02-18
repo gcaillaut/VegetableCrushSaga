@@ -154,10 +154,17 @@ void Graphic::updateGame()
 		}
 
 	unsigned int old_score(score);
-  score += board.update();
+	std::pair<unsigned int, unsigned int> score_combo_wombo = board.update();
+
+	score += score_combo_wombo.first;
+	combo_wombo = score_combo_wombo.second;
 
 	if (score != old_score)
 		std::cout << "Score: " << score << std::endl;
+
+	if (combo_wombo > 1)
+		std::cout<< "Combo_wombo: " << combo_wombo << std::endl;
+	
 }
 
 void Graphic::setActive (bool value)

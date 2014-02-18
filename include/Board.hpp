@@ -43,7 +43,7 @@ public:
   /**
    * \brief Mets à jour le plateau.
    */
-  unsigned int update ();
+	std::pair<unsigned int, unsigned int> update ();
 
   void updatePositions();
   bool areItemsMoving();
@@ -53,6 +53,8 @@ private:
   unsigned int total_size;
   unsigned int cols;
   unsigned int rows;
+	unsigned int last_move_value;
+	unsigned int combo_wombo;
 
   sf::Rect<unsigned int> dimensions;
 
@@ -63,7 +65,6 @@ private:
 
   sf::RectangleShape board_shape;
 
-	unsigned int last_move_value;
 
   void randomFill (); 
   void changeItem(unsigned int x, unsigned int y);

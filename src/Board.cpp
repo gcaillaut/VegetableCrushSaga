@@ -12,6 +12,8 @@ Board::Board (unsigned int x, unsigned int y, unsigned int width, unsigned int h
   total_size(width * height),
   cols(width),
   rows(height),
+	last_move_value(0),
+	combo_wombo(0),
   items(total_size),
   available_items(game.getItemFactory().getAvailableKeys()),
   generator(std::chrono::system_clock::now().time_since_epoch().count())
@@ -174,9 +176,10 @@ void Board::fillBlanks()
 		}
 }
 
-unsigned int Board::update ()
+std::pair<unsigned int, unsigned int> Board::update ()
 {
 	last_move_value = 0;
+	combo_wombo = 0;
 
   if (!areItemsMoving())
 		{
@@ -194,7 +197,7 @@ unsigned int Board::update ()
 
   updatePositions();
 
-	return last_move_value;
+	return std::make_pair(last_move_value, combo_wombo);
 }
 
 void Board::updateLine (const unsigned int begin, const unsigned int end, const unsigned int offset)
@@ -235,10 +238,13 @@ void Board::updateLine (const unsigned int begin, const unsigned int end, const 
 
 void Board::markForRemoval (unsigned int begin, const unsigned int end, const unsigned int offset)
 {
+	
+		++combo_wombo;
+
   while (begin <= end)
 		{
 			items[begin]->destroy();
-			last_move_value += items[begin]->getValue();
+			last_move_value += items[begin]->getValue() * combo_wombo;
 			begin += offset;
 		}
 }
