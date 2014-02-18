@@ -181,3 +181,13 @@ bool Graphic::isActive ()
 {
   return active_input;
 }
+
+unsigned int Graphic::getScore () const
+{
+	return score;
+}
+
+unsigned int Graphic::getCombo () const
+{
+	return combo_wombo;
+}

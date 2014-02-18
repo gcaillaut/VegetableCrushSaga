@@ -29,14 +29,22 @@ void GraphicView::draw()
 {
   graphic->updateGame();
 
-  window.draw(graphic->getBoard().getBoardShape());
+	if (graphic->getCombo() > 0)
+		{
+			drawComboWombo();
+		}
+
+	else
+		{
+			window.draw(graphic->getBoard().getBoardShape());
   
-  auto& items = graphic->getBoard().getItems();
-  for (auto& item: items)
-    {    
-      if (item.get())
-        window.draw(*item);
-    }
+			auto& items = graphic->getBoard().getItems();
+			for (auto& item: items)
+				{    
+					if (item.get())
+						window.draw(*item);
+				}
+		}
 }
 
 void GraphicView::display()
@@ -88,6 +96,40 @@ void GraphicView::sendEvents()
           break;
         }
     }
+}
+
+void GraphicView::drawComboWombo ()
+{
+	std::cout << "COMBO" << std::endl;
+	sf::Texture texture;
+	sf::Sprite orang_outang;
+	sf::Vector2u size(window.getSize());
+
+	texture.loadFromFile("assets/ORANG_OUTANG.jpg");
+	orang_outang.setTexture(texture);
+	orang_outang.setPosition(size.x, size.y / 2);
+	orang_outang.scale(0.5f, 0.5f);
+ 
+	while (orang_outang.getPosition().x > -static_cast<int>(texture.getSize().x))
+		{
+
+			clear();
+
+			window.draw(graphic->getBoard().getBoardShape());
+  
+			auto& items = graphic->getBoard().getItems();
+			for (auto& item: items)
+				{    
+					if (item.get())
+						window.draw(*item);
+				}
+			
+			window.draw(orang_outang);
+
+			orang_outang.move(sf::Vector2f(-20.f, 0.f));
+
+			display();
+		}
 }
 
 bool GraphicView::isRunning() const

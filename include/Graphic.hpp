@@ -24,7 +24,9 @@ public:
 
 	Board& getBoard ();
 	bool isActive ();
-
+	unsigned int getScore () const;
+	unsigned int getCombo () const;
+ 
 private:
 	Board board;
 

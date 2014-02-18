@@ -11,23 +11,25 @@ class Graphic;
 
 class GraphicView: public View
 {
-	public:
-		GraphicView (Controller *controller, Graphic *graphic, sf::RenderWindow& window);
-		virtual ~GraphicView();
+public:
+	GraphicView (Controller *controller, Graphic *graphic, sf::RenderWindow& window);
+	virtual ~GraphicView();
 
-		virtual void clear ();
-		virtual void draw ();
-		virtual void display ();
+	virtual void clear ();
+	virtual void draw ();
+	virtual void display ();
 
-		virtual void sendEvents ();
+	virtual void sendEvents ();
 
-		bool isRunning() const;
+	void drawComboWombo ();
 
-	private:
-		Graphic *graphic;
-		sf::RenderWindow& window;
+	bool isRunning() const;
 
-		bool running;
+private:
+	Graphic *graphic;
+	sf::RenderWindow& window;
+
+	bool running;
 };
 
 #endif // GRAPHIC_VIEW_HPP
