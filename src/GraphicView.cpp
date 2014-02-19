@@ -100,7 +100,6 @@ void GraphicView::sendEvents()
 
 void GraphicView::drawComboWombo ()
 {
-	std::cout << "COMBO" << std::endl;
 	sf::Texture texture;
 	sf::Sprite orang_outang;
 	sf::Vector2u size(window.getSize());
@@ -109,10 +108,15 @@ void GraphicView::drawComboWombo ()
 	orang_outang.setTexture(texture);
 	orang_outang.setPosition(size.x, size.y / 2);
 	orang_outang.scale(0.5f, 0.5f);
- 
-	while (orang_outang.getPosition().x > -static_cast<int>(texture.getSize().x))
-		{
 
+	float x = size.x;
+	float a = -1/x;
+	float b = x*-a;
+	float c = 0.f;
+ 
+	while (x > -static_cast<int>(texture.getSize().x))
+		{
+			
 			clear();
 
 			window.draw(graphic->getBoard().getBoardShape());
@@ -126,7 +130,10 @@ void GraphicView::drawComboWombo ()
 			
 			window.draw(orang_outang);
 
-			orang_outang.move(sf::Vector2f(-20.f, 0.f));
+			x -= 20.f;
+			float y =  a*x*x + b*x + c;
+
+			orang_outang.setPosition(x, y);
 
 			display();
 		}
