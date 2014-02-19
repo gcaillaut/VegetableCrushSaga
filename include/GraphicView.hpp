@@ -22,7 +22,8 @@ public:
 	virtual void sendEvents ();
 
 	void drawComboWombo ();
-
+	void drawBoard ();
+ 
 	bool isRunning() const;
 
 private:

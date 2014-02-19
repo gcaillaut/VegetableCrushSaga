@@ -1,4 +1,5 @@
 #include <SFML/Window/Event.hpp>
+#include <SFML/Audio/Music.hpp>
 
 #include "GraphicView.hpp"
 
@@ -29,21 +30,14 @@ void GraphicView::draw()
 {
   graphic->updateGame();
 
-	if (graphic->getCombo() > 0)
+	if (graphic->getCombo() > 3)
 		{
 			drawComboWombo();
 		}
 
 	else
 		{
-			window.draw(graphic->getBoard().getBoardShape());
-  
-			auto& items = graphic->getBoard().getItems();
-			for (auto& item: items)
-				{    
-					if (item.get())
-						window.draw(*item);
-				}
+			drawBoard();
 		}
 }
 
@@ -101,8 +95,10 @@ void GraphicView::sendEvents()
 void GraphicView::drawComboWombo ()
 {
 	sf::Texture texture;
-	sf::Sprite orang_outang;
+	sf::Sprite orang_outang, orang_outang2;
 	sf::Vector2u size(window.getSize());
+	sf::Music combo_sound;
+	combo_sound.openFromFile("assets/combo_breaker.ogg");
 
 	texture.loadFromFile("assets/ORANG_OUTANG.jpg");
 	orang_outang.setTexture(texture);
@@ -113,29 +109,40 @@ void GraphicView::drawComboWombo ()
 	float a = -1/x;
 	float b = x*-a;
 	float c = 0.f;
- 
+	orang_outang2 = orang_outang;
+
+	combo_sound.play();
 	while (x > -static_cast<int>(texture.getSize().x))
 		{
 			
 			clear();
 
-			window.draw(graphic->getBoard().getBoardShape());
-  
-			auto& items = graphic->getBoard().getItems();
-			for (auto& item: items)
-				{    
-					if (item.get())
-						window.draw(*item);
-				}
+			drawBoard();
 			
 			window.draw(orang_outang);
-
-			x -= 20.f;
+			window.draw(orang_outang2);
+ 
+			x -= 18.f;
 			float y =  a*x*x + b*x + c;
-
 			orang_outang.setPosition(x, y);
-
+			orang_outang2.setPosition(size.x - x, y);
+ 
 			display();
+			graphic->updateGame();
+		}
+}
+
+void GraphicView::drawBoard ()
+{
+	window.draw(graphic->getBoard().getBoardShape());
+  
+	auto& items = graphic->getBoard().getItems();
+	for (auto& item: items)
+		{    
+			if (item)
+				{
+					window.draw(*item);
+				}
 		}
 }
 
