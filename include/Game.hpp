@@ -1,43 +1,44 @@
-#ifndef INCLUDED_GAME_HPP
-#define INCLUDED_GAME_HPP
+#ifndef GAME_HPP
+#define GAME_HPP
 
 #include <memory>
+#include <stack>
 
-#include <SFML/Graphics/RenderWindow.hpp>
-
-#include "View.hpp"
-#include "Factory.hpp"
-#include "RessourceManager.hpp"
-
-class Item;
-
-typedef RessourcesManager<sf::Texture, std::string> TexturesManager;
+#include <SFML/Graphics/RectangleShape.hpp>
+#include "Board.hpp"
 
 class Game
 {
-public:
-  Game ();
-  ~Game ();
+  public:
+	Game(unsigned int x, unsigned int y, unsigned int width, unsigned int height,
+			unsigned int cell_size);
+	virtual ~Game();
 
-  void init ();
+	void setClickPosition(const float x, const float y);
+	void setReleasePosition(const float x, const float y);
 
-  View* getCurrentView () const;
-  void setCurrentView (View *view);
+	void executeMovement();
+	void updateGame();
 
-  const Factory<Item>& getItemFactory () const;
-  TexturesManager& getTexturesManager ();
-  sf::RenderWindow& getWindow ();
-   
-private:
-  std::unique_ptr<sf::RenderWindow> window;
-  View *current_view;
+	void setActive (bool value);
 
-  Factory<Item> item_factory;
-  TexturesManager textures_manager;
+	Board& getBoard ();
+	bool isActive ();
 
-  void addTexture(std::string name);
+  private:
+	Board board;
+
+	sf::Vector2u first_item;
+	sf::Vector2u second_item;
+
+	bool first_selected;
+	bool second_selected;
+
+	std::stack<sf::Vector2u> move_registered;
+
+	bool active_input;
+
+	void registerMove(unsigned int source, unsigned int target);
 };
 
-extern Game game;
-
-#endif /* INCLUDED_GAME_HPP */
+#endif // GAME_HPP

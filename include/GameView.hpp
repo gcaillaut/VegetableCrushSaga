@@ -1,5 +1,5 @@
-#ifndef GRAPHIC_VIEW_HPP
-#define GRAPHIC_VIEW_HPP
+#ifndef GAME_VIEW_HPP
+#define GAME_VIEW_HPP
 
 #include "View.hpp"
 #include <SFML/Graphics/RenderWindow.hpp>
@@ -7,13 +7,13 @@
 #include <SFML/Graphics/Text.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
 
-class Graphic;
+class Game;
 
-class GraphicView: public View
+class GameView: public View
 {
 	public:
-		GraphicView (Controller *controller, Graphic *graphic, sf::RenderWindow& window);
-		virtual ~GraphicView();
+		GameView (Controller *controller, Game *game, sf::RenderWindow& window);
+		virtual ~GameView();
 
 		virtual void clear ();
 		virtual void draw ();
@@ -23,11 +23,13 @@ class GraphicView: public View
 
 		bool isRunning() const;
 
+		void loop();
+
 	private:
-		Graphic *graphic;
+		Game *game;
 		sf::RenderWindow& window;
 
 		bool running;
 };
 
-#endif // GRAPHIC_VIEW_HPP
+#endif // GAME_VIEW_HPP

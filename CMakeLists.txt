@@ -24,9 +24,9 @@ endif()
 
 if(CMAKE_BUILD_TYPE STREQUAL "Release")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O2 -Os")
+  set(CMAKE_EXE_LINKER_FLAGS  "-s")
 endif()
 
-set(CMAKE_EXE_LINKER_FLAGS  "-s")
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_modules" ${CMAKE_MODULE_PATH})
 
 

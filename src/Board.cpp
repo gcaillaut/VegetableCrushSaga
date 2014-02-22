@@ -5,7 +5,7 @@
 
 #include "Board.hpp"
 #include "Item.hpp"
-#include "Game.hpp"
+#include "Globals.hpp"
 
 Board::Board (unsigned int x, unsigned int y, unsigned int width, unsigned int height, unsigned int cell_size) :
   cell_size(cell_size),
@@ -13,7 +13,7 @@ Board::Board (unsigned int x, unsigned int y, unsigned int width, unsigned int h
   cols(width),
   rows(height),
   items(total_size),
-  available_items(game.getItemFactory().getAvailableKeys()),
+  available_items(globals.getItemFactory().getAvailableKeys()),
   generator(std::chrono::system_clock::now().time_since_epoch().count())
 {
   dimensions = {x, y, width*cell_size, height*cell_size};
@@ -33,11 +33,11 @@ Board::~Board ()
 void Board::randomFill ()
 {
   for (unsigned int i(0) ; i < total_size ; ++i)
-		{
-			changeItem(i % cols, i / cols);
+  {
+	changeItem(i % cols, i / cols);
 
 
-			/* items[i] = std::move(game.getItemFactory().createObject("PATATO"));
+	/* items[i] = std::move(game.getItemFactory().createObject("PATATO"));
 				 removed_items[i] = false;
 
 				 sf::Vector2u texture_size(items[i]->getTexture()->getSize());
@@ -62,7 +62,7 @@ void Board::randomFill ()
 				 static_cast<float>(cell_size) / texture_size.y);
 				 }
 			*/
-		}
+  }
 }
 
 const std::vector<std::unique_ptr<Item> >& Board::getItems () const
@@ -107,12 +107,12 @@ const sf::RectangleShape &Board::getBoardShape() const
 
 unsigned Board::posToInd (const sf::Vector2u pos) const
 {
-	return (pos.x - dimensions.left) / cell_size + (pos.y - dimensions.top) / cell_size * cols;
+  return (pos.x - dimensions.left) / cell_size + (pos.y - dimensions.top) / cell_size * cols;
 }
 
 unsigned Board::posToInd (const unsigned x, const unsigned y) const
 {
-	return (x - dimensions.left) / cell_size + (y - dimensions.top) / cell_size * cols;
+  return (x - dimensions.left) / cell_size + (y - dimensions.top) / cell_size * cols;
 }
 
 void Board::swapItems (const unsigned int src, const unsigned int dest)
@@ -125,12 +125,12 @@ void Board::changeItem(unsigned int x, unsigned int y)
   unsigned int pos(x + y*cols);
   unsigned int key_ind(generator() % available_items.size());
 
-  items[pos] = std::move(game.getItemFactory().createObject(available_items[key_ind]));
+  items[pos] = std::move(globals.getItemFactory().createObject(available_items[key_ind]));
 
   sf::Vector2u texture_size(items[pos]->getTexture()->getSize());
   items[pos]->setOrigin(texture_size.x / 2, texture_size.y / 2);
   items[pos]->setScale(static_cast<float>(cell_size) / texture_size.x,
-											 static_cast<float>(cell_size) / texture_size.y);
+					   static_cast<float>(cell_size) / texture_size.y);
 
   items[pos]->setPosition(0, -static_cast<int>(cell_size));
 }
@@ -140,11 +140,11 @@ bool Board::areNext(unsigned int source, unsigned int target) const
   unsigned int tmp(source % cols);
 
   if (target >= total_size)
-		return false;
+	return false;
   if (tmp == 0 && source == target + 1)
-		return false;
+	return false;
   if (tmp == cols - 1 && source == target - 1)
-		return false;
+	return false;
 
   return target == source - 1
 	  || target == source + 1
@@ -166,29 +166,29 @@ void Board::clearRemoved()
 void Board::fillBlanks()
 {
   for (unsigned int i(0) ; i < total_size ; ++i)
-		{
-			if (items[i]->isDestroyed())
-				{
-					changeItem(i % cols, i / cols);
-				}
-		}
+  {
+	if (items[i]->isDestroyed())
+	{
+	  changeItem(i % cols, i / cols);
+	}
+  }
 }
 
 void Board::update ()
 {
   if (!areItemsMoving())
-		{
-			do {
+  {
+	do {
 
-				fillBlanks();
+	  fillBlanks();
 
-				updateRowsAndCols();
+	  updateRowsAndCols();
 
-				for (unsigned int i = 0; i < cols; ++i)
-					applyGravity(i);
+	  for (unsigned int i = 0; i < cols; ++i)
+		applyGravity(i);
 
-			} while (!isStable());
-		}
+	} while (!isStable());
+  }
 
   updatePositions();
 }
@@ -201,110 +201,110 @@ void Board::updateLine (const unsigned int begin, const unsigned int end, const 
   unsigned int current = begin + offset;
 
   while (current < end)
+  {
+	Item *current_item(items[current].get());
+	if (previous_item && current_item)
+	{
+	  if (*previous_item != *current_item)
+	  {
+		if (cpt >= 2)
 		{
-			Item *current_item(items[current].get());
-			if (previous_item && current_item)
-				{
-					if (*previous_item != *current_item)
-						{
-							if (cpt >= 2)
-								{
-									markForRemoval(current - offset*(cpt+1), current - offset, offset);
-								}
-							cpt = 0;
-						}
-					else
-						{
-							++cpt;
-							if (cpt >= 2 && current == end - offset)
-								{
-									markForRemoval(current - offset*(cpt), current, offset);
-								}
-						}
-				}
-			else {cpt = 0;}
-
-			current += offset;
-			previous_item = current_item;
+		  markForRemoval(current - offset*(cpt+1), current - offset, offset);
 		}
+		cpt = 0;
+	  }
+	  else
+	  {
+		++cpt;
+		if (cpt >= 2 && current == end - offset)
+		{
+		  markForRemoval(current - offset*(cpt), current, offset);
+		}
+	  }
+	}
+	else {cpt = 0;}
+
+	current += offset;
+	previous_item = current_item;
+  }
 }
 
 void Board::markForRemoval (unsigned int begin, const unsigned int end, const unsigned int offset)
 {
   while (begin <= end)
-		{
-			items[begin]->destroy();
-			begin += offset;
-		}
+  {
+	items[begin]->destroy();
+	begin += offset;
+  }
 }
 
 bool Board::isStable () const
 {
   return !std::any_of(items.cbegin(), items.cend(), [](const std::unique_ptr<Item> &item)
-											{
-												return item->isDestroyed();
-											});
+  {
+	return item->isDestroyed();
+  });
 }
 
 void Board::updateRowsAndCols ()
 {
   for (unsigned int i(0) ; i < rows; ++i)
-		{
-			updateLine(i * cols, (i+1) * cols, 1);
-		}
+  {
+	updateLine(i * cols, (i+1) * cols, 1);
+  }
 
   for (unsigned int i(0) ; i < cols; ++i)
-		{
-			updateLine(i, cols * rows + i, cols);
-		}
+  {
+	updateLine(i, cols * rows + i, cols);
+  }
 }
 
 void Board::applyGravity (const unsigned int col)
 {
   for (int i(col + cols * (rows-1)) ; i >= 0; i -= cols)
-		{
-			/*
+  {
+	/*
 			 * Si l'item i est supprimé, on doit le remplacer par l'item au dessus le plus proche
 			 */
-			if (items[i]->isDestroyed())
-				{
-					int next(i - cols);
+	if (items[i]->isDestroyed())
+	{
+	  int next(i - cols);
 
-					/*
+	  /*
 					 * si next < 0, alors il n'y a pas d'item au dessus de i
 					 */
-					while (next >= 0 && items[next]->isDestroyed())
-						{
-							next -= cols;
-						}
+	  while (next >= 0 && items[next]->isDestroyed())
+	  {
+		next -= cols;
+	  }
 
-					if (next >= 0)
-						{
-							swapItems(i, next);
-						}
-				}
-		}
+	  if (next >= 0)
+	  {
+		swapItems(i, next);
+	  }
+	}
+  }
 }
 
 void Board::updatePositions ()
 {
   for (unsigned int j = 0; j < rows; ++j)
-		{
-			for (unsigned int i = 0; i < cols; ++i)
-				{
-					if (items[i + j*cols].get())
-						{
-							float new_x(i * cell_size + cell_size / 2 + dimensions.left);
-							float new_y(j * cell_size + cell_size / 2 + dimensions.top);
+  {
+	for (unsigned int i = 0; i < cols; ++i)
+	{
+	  if (items[i + j*cols].get())
+	  {
+		float new_x(i * cell_size + cell_size / 2 + dimensions.left);
+		float new_y(j * cell_size + cell_size / 2 + dimensions.top);
 
-							items[i + j*cols]->goTo(sf::Vector2f(new_x, new_y));
-						}
-				}
-		}
+		items[i + j*cols]->goTo(sf::Vector2f(new_x, new_y));
+	  }
+	}
+  }
 }
 
 bool Board::areItemsMoving()
 {
   return std::any_of(items.cbegin(), items.cend(), [](const std::unique_ptr<Item>& i)
-										 { return i->isMoving(); });
+  { return i->isMoving(); });
 }

@@ -4,13 +4,13 @@
 #define CREATE(name, value) Item* create ##name ()		\
 {\
   Item *item(new BasicItem( #name , value));																\
-  item->setTexture(*game.getTexturesManager().getRessource( #name ));\
+  item->setTexture(*globals.getTexturesManager().getRessource( #name ));\
   return item;\
 }
 
 #include <memory>
 
-#include "Game.hpp"
+#include "Globals.hpp"
 
 CREATE(Carrot, 5)
 CREATE(Strawberry, 5)
