@@ -5,6 +5,7 @@
 #include <stack>
 
 #include <SFML/Graphics/RectangleShape.hpp>
+
 #include "Board.hpp"
 
 class Game
@@ -20,10 +21,18 @@ class Game
 	void executeMovement();
 	void updateGame();
 
+	void addPoints(unsigned int value);
+	void setCombo(unsigned int combo);
+
 	void setActive (bool value);
 
 	Board& getBoard ();
+	unsigned int getScore() const;
+	unsigned int getCombo() const;
+
 	bool isActive ();
+
+	std::stack<sf::Vector2u> move_registered;
 
   private:
 	Board board;
@@ -34,9 +43,11 @@ class Game
 	bool first_selected;
 	bool second_selected;
 
-	std::stack<sf::Vector2u> move_registered;
 
 	bool active_input;
+
+	unsigned int score;
+	unsigned int combo;
 
 	void registerMove(unsigned int source, unsigned int target);
 };

@@ -8,7 +8,7 @@ Item::Item (const std::string &name, const unsigned int points) :
   name(name),
 	value(points),
   destroyed(false),
-  moving(false)
+  moving(true)
 {}
 
 Item::~Item ()
@@ -84,4 +84,17 @@ bool Item::operator==(const Item& item) const
 bool Item::operator!=(const Item& item) const
 {
   return name!=item.name;
+}
+
+void Item::resetItem(Item *item)
+{
+  item->destroyed = destroyed;
+  item->moving = moving;
+  item->setPosition(getPosition());
+  item->setRotation(getRotation());
+  item->setScale(getScale());
+  item->setOrigin(getOrigin());
+  item->setColor(getColor());
+  item->setTexture(*getTexture());
+  item->setTextureRect(getTextureRect());
 }

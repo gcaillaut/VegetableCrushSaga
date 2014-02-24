@@ -6,14 +6,18 @@
 #include "Game.hpp"
 
 #include "Item.hpp"
+#include "Board.hpp"
 
 Game::Game(unsigned int x, unsigned int y, unsigned int width, unsigned int height,
 				 unsigned int cell_size) :
-  board(x, y, width, height, cell_size),
+  board(x, y, width, height, cell_size, *this),
   first_selected(false),
   second_selected(false),
-  active_input(true)
-{}
+  active_input(true),
+  score(0),
+  combo(0)
+{
+}
 
 Game::~Game()
 {}
@@ -44,7 +48,7 @@ void Game::setClickPosition(const float x, const float y)
 	  second_selected = true;
 	}
 
-	board.getItemAt(ind_in_board)->setColor(sf::Color::Yellow);
+	// board.getItemAt(ind_in_board)->setColor(sf::Color::Yellow);
   }
 }
 
@@ -84,7 +88,7 @@ void Game::setReleasePosition(const float x, const float y)
   // Si on drag en dehors de la fenêtre
   else
   {
-	board.resetSelected(board.posToInd(first_item));
+	// board.resetSelected(board.posToInd(first_item));
 	first_selected = false;
   }
 }
@@ -100,26 +104,32 @@ void Game::executeMovement()
 
 	  if (board.areNext(ind_first_item, ind_second_item))
 	  {
+		// Combo reset
+		board.resetLastScore();
+
+		board.saveState();
+
 		board.swapItems(ind_first_item, ind_second_item);
 		board.updateRowsAndCols();
+		board.resetLastScore();
 
-		if (!board.isStable())
+		if (board.isStable())
 		{
-		  registerMove(ind_first_item, ind_second_item);
-		  board.swapItems(ind_second_item, ind_first_item);
-		  board.clearRemoved();
-		}
-		else
-		{
+		  board.loadState();
+
 		  registerMove(ind_first_item, ind_second_item);
 		  registerMove(ind_second_item, ind_first_item);
-		  board.swapItems(ind_second_item, ind_first_item);
-		  board.clearRemoved();
+		}
+
+		// Coup valide !
+		else
+		{
+		  board.loadState();
+
+		  registerMove(ind_first_item, ind_second_item);
 		}
 	  }
 
-	  board.resetSelected(ind_second_item);
-	  board.resetSelected(ind_first_item);
 	  first_selected = second_selected = false;
 	}
   }
@@ -150,6 +160,16 @@ void Game::updateGame()
   board.update();
 }
 
+void Game::addPoints(unsigned int value)
+{
+  score += value;
+}
+
+void Game::setCombo(unsigned int combo)
+{
+  this->combo = combo;
+}
+
 void Game::setActive (bool value)
 {
   active_input = value;
@@ -158,6 +178,16 @@ void Game::setActive (bool value)
 Board& Game::getBoard ()
 {
   return board;
+}
+
+unsigned int Game::getScore() const
+{
+  return score;
+}
+
+unsigned int Game::getCombo() const
+{
+  return combo;
 }
 
 bool Game::isActive ()

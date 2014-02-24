@@ -7,14 +7,15 @@ class Board;
 
 class BasicItem : public Item
 {
-public:
-  BasicItem(const std::string &name, const unsigned int points);
-  virtual ~BasicItem ();
+  public:
+	BasicItem(const std::string &name, const unsigned int points);
+	virtual ~BasicItem ();
 
-  virtual void update(Board & board, sf::Vector2f pos);
+	virtual void update(Board & board, sf::Vector2f pos);
+	virtual BasicItem* clone();
 
-private:
-  
+  private:
+
 };
 
 #endif /* INCLUDED_BASICITEM_HPP */

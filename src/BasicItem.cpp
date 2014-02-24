@@ -14,3 +14,11 @@ void BasicItem::update (Board & board, sf::Vector2f pos)
 {
 
 }
+
+BasicItem *BasicItem::clone()
+{
+  BasicItem* item = new BasicItem(name, value);
+  resetItem(item);
+
+  return item;
+}

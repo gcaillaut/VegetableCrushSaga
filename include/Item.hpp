@@ -29,7 +29,11 @@ class Item : public sf::Sprite
 	bool operator==(const Item& item) const;
 	bool operator!=(const Item& item) const;
 
-  private:
+	void resetItem(Item* item);
+
+	virtual Item* clone() = 0;
+
+  protected:
 	const std::string name;
 
 	unsigned int value;

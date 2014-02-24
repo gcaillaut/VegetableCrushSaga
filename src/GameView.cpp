@@ -101,7 +101,7 @@ void GameView::loop()
   while (running)
   {
 	fps = 1.f / clock.getElapsedTime().asSeconds();
-	window.setTitle("[FPS: " + std::to_string(fps) + "]");
+	window.setTitle("[P: " + std::to_string(game->getScore()) + "][x" + std::to_string(game->getCombo()) + "][FPS: " + std::to_string(fps) + "]");
 	clock.restart();
 
 	sendEvents();
