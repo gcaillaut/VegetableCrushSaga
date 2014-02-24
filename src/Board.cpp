@@ -30,6 +30,30 @@ Board::Board (unsigned int x, unsigned int y, unsigned int width, unsigned int h
   board_shape.setSize(sf::Vector2f(dimensions.width, dimensions.height));
 
   randomFill();
+
+  do
+  {
+	fillBlanks();
+
+	for (unsigned int i(0) ; i < rows; ++i)
+	{
+	  updateLine(i * cols, (i+1) * cols, 1);
+	}
+
+	for (unsigned int i(0) ; i < cols; ++i)
+	{
+	  updateLine(i, cols * rows + i, cols);
+	}
+
+	for (unsigned int i = 0; i < cols; ++i)
+	{
+	  applyGravity(i);
+	}
+
+  } while (!isStable());
+
+  // A ce point, le jeu est stable
+  last_move_score = combo = 0;
 }
 
 Board::~Board ()
