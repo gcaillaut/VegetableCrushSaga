@@ -25,9 +25,17 @@ class GameView: public View
 
 		void loop();
 
+		void showComboText();
+
 	private:
 		Game *game;
 		sf::RenderWindow& window;
+
+		sf::Font font;
+
+		sf::Clock combo_clock;
+		sf::Text combo_text;
+		bool combo_mode;
 
 		bool running;
 };

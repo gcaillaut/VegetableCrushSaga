@@ -12,8 +12,15 @@ GameView::GameView(Controller *controller, Game *game, sf::RenderWindow &window)
   View(controller),
   game(game),
   window(window),
+  combo_mode(false),
   running(true)
 {
+  font.loadFromFile("assets/font.ttf");
+  combo_text.setFont(font);
+  combo_text.setColor(sf::Color(0, 0, 0, 255));
+  combo_text.setCharacterSize(200);
+
+  combo_text.setPosition(window.getSize().x / 2, window.getSize().y / 2);
 }
 
 GameView::~GameView()
@@ -110,6 +117,53 @@ void GameView::loop()
 
 	clear();
 	draw();
+
+	showComboText();
+
 	display();
+  }
+}
+
+void GameView::showComboText()
+{
+  static unsigned int prev_combo = 0;
+
+  unsigned int current_combo = game->getCombo();
+
+  if (current_combo > 1 && prev_combo != current_combo)
+  {
+	combo_text.setCharacterSize(200.f * (1.5f + (current_combo / 10.f)));
+
+	combo_text.setString("x" + std::to_string(current_combo));
+	combo_text.setColor(sf::Color(0, 0, 0, 255));
+
+
+	combo_text.setPosition(window.getSize().x / 2 - combo_text.getGlobalBounds().width / 2,
+						  window.getSize().y / 2 - combo_text.getGlobalBounds().height);
+
+	combo_mode = true;
+	combo_clock.restart();
+
+  }
+
+  prev_combo = current_combo;
+
+  // Combo
+  if (combo_mode)
+  {
+	if (combo_clock.getElapsedTime().asSeconds() < 3)
+	{
+	  window.draw(combo_text);
+
+	  sf::Color color = combo_text.getColor();
+	  float delta = (float)(1.f/60.f * 70.f);
+	  color.a -= (color.a - delta < 0 ? 0 : delta);
+
+	  combo_text.setColor(color);
+	}
+	else
+	{
+	  combo_mode = false;
+	}
   }
 }

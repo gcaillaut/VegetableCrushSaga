@@ -43,7 +43,6 @@ class Game
 	bool first_selected;
 	bool second_selected;
 
-
 	bool active_input;
 
 	unsigned int score;
