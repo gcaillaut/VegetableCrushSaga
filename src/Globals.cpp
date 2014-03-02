@@ -12,8 +12,10 @@ Globals globals;
 
 Globals::Globals () :
   window(nullptr),
-  current_view(nullptr)
-{}
+  current_view(nullptr),
+  running(true)
+{
+}
 
 Globals::~Globals ()
 {}
@@ -44,9 +46,10 @@ View* Globals::getCurrentView () const
   return current_view;
 }
 
-void Globals::setCurrentView (View *view)
+void Globals::setCurrentView (std::string name)
 {
-  current_view = view;
+  current_view = this->getView(name);
+  current_view->activate();
 }
 
 const Factory<Item>& Globals::getItemFactory () const
@@ -62,6 +65,51 @@ TexturesManager& Globals::getTexturesManager ()
 sf::RenderWindow& Globals::getWindow ()
 {
   return *window;
+}
+
+void Globals::gameLoop()
+{
+  while (running)
+  {
+	current_view->loop();
+  }
+}
+
+void Globals::shutdown()
+{
+  running = false;
+}
+
+void Globals::addView(std::string name, View *view)
+{
+  if (view_map.find(name) == view_map.end())
+  {
+	view_map[name] = view;
+  }
+}
+
+View* Globals::getView(std::string name)
+{
+  if (view_map.find(name) != view_map.end())
+  {
+	return view_map[name];
+  }
+  else
+  {
+	return nullptr;
+  }
+}
+
+void Globals::captureScreen()
+{
+  sf::Image image = window->capture();
+  gameTexture.loadFromImage(image);
+  gameSprite.setTexture(gameTexture);
+}
+
+const sf::Sprite &Globals::getLastCapture() const
+{
+  return gameSprite;
 }
 
 void Globals::addTexture(std::string name)

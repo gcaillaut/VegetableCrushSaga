@@ -46,7 +46,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 # -------------------
 # External libs
 
-set(GAME_LIBS -lsfml-system -lsfml-window -lsfml-graphics)
+set(GAME_LIBS -lsfml-system -lsfml-window -lsfml-graphics -lsfgui)
 
 # -------------------
 # Executable & Link

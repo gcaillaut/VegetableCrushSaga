@@ -1,26 +1,27 @@
-#ifndef GAME_CONTROLLER_HPP
-#define GAME_CONTROLLER_HPP
+#ifndef MENU_CONTROLLER_HPP
+#define MENU_CONTROLLER_HPP
 
 #include "Controller.hpp"
 
 class Game;
 
-class GameController: public Controller
+class MenuController: public Controller
 {
   public:
-	GameController (Game *game);
-	virtual ~GameController ();
+	MenuController(Game *game);
+	virtual ~MenuController();
 
 	virtual void onClick (const float x, const float y);
 	virtual void onClickRelease (const float x, const float y);
 	virtual void onLostFocus ();
 	virtual void onGainedFocus ();
 
-	void onEscape();
-	void onQuit();
+	void onRetour();
+	void onToggleAnimation();
+	void onQuitter();
 
   private:
 	Game *game;
 };
 
-#endif // GAME_CONTROLLER_HPP
+#endif // MENU_CONTROLLER_HPP

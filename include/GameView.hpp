@@ -5,7 +5,8 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 
 #include <SFML/Graphics/Text.hpp>
-#include <SFML/Graphics/RectangleShape.hpp>
+#include <SFML/Graphics/Sprite.hpp>
+#include <SFML/Graphics/Texture.hpp>
 
 class Game;
 
@@ -21,9 +22,7 @@ class GameView: public View
 
 		virtual void sendEvents ();
 
-		bool isRunning() const;
-
-		void loop();
+		virtual void loop();
 
 		void showComboText();
 
@@ -34,10 +33,16 @@ class GameView: public View
 		sf::Font font;
 
 		sf::Clock combo_clock;
-		sf::Text combo_text;
+		sf::Text popup_text;
 		bool combo_mode;
 
-		bool running;
+		sf::Text points_text;
+		sf::Text combo_text;
+
+		sf::Sprite grass_sprite;
+		sf::Texture grass_texture;
+
+		void initializeGUI();
 };
 
 #endif // GAME_VIEW_HPP

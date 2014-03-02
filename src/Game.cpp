@@ -47,8 +47,6 @@ void Game::setClickPosition(const float x, const float y)
 	  second_item = selected;
 	  second_selected = true;
 	}
-
-	// board.getItemAt(ind_in_board)->setColor(sf::Color::Yellow);
   }
 }
 
@@ -88,7 +86,6 @@ void Game::setReleasePosition(const float x, const float y)
   // Si on drag en dehors de la fenêtre
   else
   {
-	// board.resetSelected(board.posToInd(first_item));
 	first_selected = false;
   }
 }

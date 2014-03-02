@@ -6,7 +6,8 @@
 #include <vector>
 
 #include <SFML/Graphics/Rect.hpp>
-#include <SFML/Graphics/RectangleShape.hpp>
+#include <SFML/Graphics/Sprite.hpp>
+#include <SFML/Graphics/Texture.hpp>
 
 class Item;
 class Game;
@@ -27,7 +28,7 @@ class Board
 	unsigned int getCellSize () const;
 
 	const sf::Rect<unsigned int>& getDimensions () const;
-	const sf::RectangleShape& getBoardShape() const;
+	const sf::Sprite& getBoardShape() const;
 
 	unsigned posToInd (const sf::Vector2u pos) const;
 	unsigned posToInd (const unsigned x, const unsigned y) const;
@@ -64,7 +65,8 @@ class Board
 
 	std::minstd_rand0 generator;
 
-	sf::RectangleShape board_shape;
+	sf::Sprite board_shape;
+	sf::Texture board_shape_texture;
 
 	unsigned int last_move_score;
 	unsigned int combo;

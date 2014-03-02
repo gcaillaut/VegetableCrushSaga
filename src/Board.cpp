@@ -23,11 +23,20 @@ Board::Board (unsigned int x, unsigned int y, unsigned int width, unsigned int h
 {
   dimensions = {x, y, width*cell_size, height*cell_size};
 
+  board_shape_texture.loadFromFile("assets/crate.png");
+  board_shape_texture.setRepeated(true);
+
+  board_shape.setTexture(board_shape_texture);
   board_shape.setPosition(x, y);
-  board_shape.setFillColor(sf::Color::White);
-  board_shape.setOutlineColor(sf::Color::Green);
-  board_shape.setOutlineThickness(5);
-  board_shape.setSize(sf::Vector2f(dimensions.width, dimensions.height));
+
+  float right_scale = (float)cell_size / (float)board_shape_texture.getSize().x;
+  sf::IntRect texture_rect = board_shape.getTextureRect();
+
+  texture_rect.width *= cols;
+  texture_rect.height *= rows;
+
+  board_shape.setTextureRect(texture_rect);
+  board_shape.setScale(right_scale, right_scale);
 
   randomFill();
 
@@ -54,6 +63,10 @@ Board::Board (unsigned int x, unsigned int y, unsigned int width, unsigned int h
 
   // A ce point, le jeu est stable
   last_move_score = combo = 0;
+  std::for_each(items.begin(), items.end(), [](std::unique_ptr<Item>& item)
+  {
+	item->swapped = false;
+  });
 }
 
 Board::~Board ()
@@ -102,7 +115,7 @@ const sf::Rect<unsigned int>& Board::getDimensions() const
   return dimensions;
 }
 
-const sf::RectangleShape &Board::getBoardShape() const
+const sf::Sprite &Board::getBoardShape() const
 {
   return board_shape;
 }
@@ -120,6 +133,8 @@ unsigned Board::posToInd (const unsigned x, const unsigned y) const
 void Board::swapItems (const unsigned int src, const unsigned int dest)
 {
   std::swap(items[src], items[dest]);
+  items[src]->swapped = true;
+  items[dest]->swapped = true;
 }
 
 void Board::changeItem(unsigned int x, unsigned int y)
@@ -133,6 +148,8 @@ void Board::changeItem(unsigned int x, unsigned int y)
   items[pos]->setOrigin(texture_size.x / 2, texture_size.y / 2);
   items[pos]->setScale(static_cast<float>(cell_size) / texture_size.x,
 					   static_cast<float>(cell_size) / texture_size.y);
+
+  items[pos]->scale(0.8f, 0.8f);
 
   items[pos]->setPosition(0, -static_cast<int>(cell_size));
 }

@@ -4,6 +4,8 @@
 #include <memory>
 
 #include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/Graphics/Texture.hpp>
+#include <SFML/Graphics/Sprite.hpp>
 
 #include "View.hpp"
 #include "Factory.hpp"
@@ -20,13 +22,21 @@ class Globals
 	~Globals ();
 
 	void init ();
+	void gameLoop();
+	void shutdown();
 
 	View* getCurrentView () const;
-	void setCurrentView (View *view);
+	void setCurrentView (std::string name);
 
 	const Factory<Item>& getItemFactory () const;
 	TexturesManager& getTexturesManager ();
 	sf::RenderWindow& getWindow ();
+
+	void addView(std::string name, View* view);
+	View* getView(std::string name);
+
+	void captureScreen();
+	const sf::Sprite& getLastCapture() const;
 
   private:
 	std::unique_ptr<sf::RenderWindow> window;
@@ -35,7 +45,14 @@ class Globals
 	Factory<Item> item_factory;
 	TexturesManager textures_manager;
 
+	std::map<std::string, View*> view_map;
+
 	void addTexture(std::string name);
+
+	bool running;
+
+	sf::Texture gameTexture;
+	sf::Sprite gameSprite;
 };
 
 extern Globals globals;

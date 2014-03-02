@@ -40,6 +40,11 @@ class Item : public sf::Sprite
 
 	bool destroyed;
 	bool moving;
+
+  public:
+	bool swapped;
+
+
 };
 
 #endif /* INCLUDED_ITEM_HPP */

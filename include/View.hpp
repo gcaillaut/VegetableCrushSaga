@@ -15,8 +15,14 @@ class View
 
 		virtual void sendEvents () = 0;
 
+		virtual void loop () = 0;
+		bool isRunning() const;
+
+		void activate ();
+
 	protected:
 		Controller *controller;
+		bool running;
 };
 
 

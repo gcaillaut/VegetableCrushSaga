@@ -4,6 +4,9 @@
 
 #include "GameView.hpp"
 #include "GameController.hpp"
+#include "MenuView.hpp"
+#include "MenuController.hpp"
+
 #include "Game.hpp"
 
 int main ()
@@ -14,7 +17,14 @@ int main ()
   GameController gameController(&game);
   GameView gameView(&gameController, &game, globals.getWindow());
 
-  gameView.loop();
+  MenuController menuController(&game);
+  MenuView menuView(&menuController, &game, globals.getWindow());
+
+  globals.addView("Game", &gameView);
+  globals.addView("Menu", &menuView);
+
+  globals.setCurrentView("Game");
+  globals.gameLoop();
 
   return 0;
 }

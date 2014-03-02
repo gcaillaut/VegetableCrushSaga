@@ -1,7 +1,7 @@
 #include "GameController.hpp"
 #include "Game.hpp"
 
-#include <iostream>
+#include "Globals.hpp"
 
 GameController::GameController(Game *game): Controller(), game(game)
 {
@@ -30,10 +30,22 @@ void GameController::onClickRelease(const float x, const float y)
 
 void GameController::onLostFocus()
 {
+
   game->setActive(false);
 }
 
 void GameController::onGainedFocus()
 {
   game->setActive(true);
+}
+
+void GameController::onEscape()
+{
+  globals.captureScreen();
+  globals.setCurrentView("Menu");
+}
+
+void GameController::onQuit()
+{
+  globals.shutdown();
 }
