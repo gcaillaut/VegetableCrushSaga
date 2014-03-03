@@ -23,6 +23,8 @@ void Game::init ()
 									sf::Style::Default & ~sf::Style::Resize));
   window->setFramerateLimit(60);
 
+	espace="";
+
   addTexture("Carrot");
   addTexture("Strawberry");
   addTexture("Mushroom");

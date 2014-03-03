@@ -13,13 +13,15 @@ int main ()
   GraphicController graphicController(&graphic);
   GraphicView graphicView(&graphicController, &graphic, game.getWindow());
 
+	graphic.setView(graphicView);
+
   sf::Clock clock;
   float fps = 0;
 
   while (graphicView.isRunning())
     {
 	  fps = 1.f / clock.getElapsedTime().asSeconds();
-	  game.getWindow().setTitle("[FPS: " + std::to_string(fps) + "]");
+	  game.getWindow().setTitle("[FPS: " + std::to_string(static_cast<int>(fps)) + "]");
 	  clock.restart();
 
       graphicView.sendEvents();

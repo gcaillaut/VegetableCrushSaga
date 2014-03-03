@@ -5,7 +5,9 @@
 #include <stack>
 
 #include <SFML/Graphics/RectangleShape.hpp>
+
 #include "Board.hpp"
+#include "View.hpp"
 
 class Graphic
 {
@@ -21,7 +23,8 @@ public:
 	void updateGame();
 
 	void setActive (bool value);
-
+	void setView (View &new_view);
+ 
 	Board& getBoard ();
 	bool isActive ();
 	unsigned int getScore () const;
@@ -29,6 +32,7 @@ public:
  
 private:
 	Board board;
+	View *view;
 
 	sf::Vector2u first_item;
 	sf::Vector2u second_item;

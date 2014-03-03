@@ -4,12 +4,13 @@
 #include <SFML/System/Clock.hpp>
 
 #include "Graphic.hpp"
-
+#include "Game.hpp"
 #include "Item.hpp"
 
 Graphic::Graphic(unsigned int x, unsigned int y, unsigned int width, unsigned int height,
 								 unsigned int cell_size) :
   board(x, y, width, height, cell_size),
+	view(nullptr),
   first_selected(false),
   second_selected(false),
   active_input(true),
@@ -48,8 +49,6 @@ void Graphic::setClickPosition(const float x, const float y)
 					second_item = selected;
 					second_selected = true;
 				}
-
-			board.getItemAt(ind_in_board)->setColor(sf::Color::Yellow);
 		}
 }
 
@@ -83,7 +82,6 @@ void Graphic::setReleasePosition(const float x, const float y)
 
 					second_item = first_item + sf::Vector2u(cell_size * dir_x, cell_size * dir_y);
 					second_selected = true;
-					// board.getItemAt(ind_in_board)->setColor(sf::Color::Blue);
 				}
 		}
 
@@ -97,6 +95,8 @@ void Graphic::setReleasePosition(const float x, const float y)
 
 void Graphic::executeMovement()
 {
+	std::cout << game.espace << __func__ << std::endl;
+	game.espace+="  ";
   if (first_selected)
 		{
 			if (second_selected)
@@ -112,16 +112,15 @@ void Graphic::executeMovement()
 							if (!board.isStable())
 								{
 									registerMove(ind_first_item, ind_second_item);
-									board.swapItems(ind_second_item, ind_first_item);
-									board.clearRemoved();
 								}
 							else
 								{
 									registerMove(ind_first_item, ind_second_item);
 									registerMove(ind_second_item, ind_first_item);
-									board.swapItems(ind_second_item, ind_first_item);
-									board.clearRemoved();
 								}
+
+							board.swapItems(ind_second_item, ind_first_item);
+							board.clearRemoved();
 						}
 		
 					board.resetSelected(ind_second_item);
@@ -129,6 +128,7 @@ void Graphic::executeMovement()
 					first_selected = second_selected = false;
 				}
 		}
+	game.espace=game.espace.substr(0, game.espace.size()-2);
 }
 
 void Graphic::registerMove(unsigned int source, unsigned int target)
@@ -138,10 +138,12 @@ void Graphic::registerMove(unsigned int source, unsigned int target)
 
 void Graphic::updateGame()
 {
+	std::cout << game.espace << __func__ << std::endl;
+	game.espace+="  ";
   active_input = !board.areItemsMoving();
 
   if (!move_registered.empty())
-		{
+		{	
 			sf::Vector2u current_move(move_registered.top());
 
 			if (active_input)
@@ -164,12 +166,18 @@ void Graphic::updateGame()
 
 	if (combo_wombo > 1)
 		std::cout<< "Combo_wombo: " << combo_wombo << std::endl;
-	
+
+	game.espace=game.espace.substr(0, game.espace.size()-2);
 }
 
 void Graphic::setActive (bool value)
 {
   active_input = value;
+}
+
+void Graphic::setView (View &new_view)
+{
+	view = &new_view;
 }
 
 Board& Graphic::getBoard ()

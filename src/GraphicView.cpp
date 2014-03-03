@@ -6,6 +6,7 @@
 #include "Controller.hpp"
 #include "Graphic.hpp"
 #include "Item.hpp"
+#include "Game.hpp"
 
 #include <iostream>
 
@@ -28,6 +29,8 @@ void GraphicView::clear()
 
 void GraphicView::draw()
 {
+
+
   graphic->updateGame();
 
 	if (graphic->getCombo() > 3)

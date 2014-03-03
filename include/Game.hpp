@@ -28,6 +28,7 @@ public:
   TexturesManager& getTexturesManager ();
   sf::RenderWindow& getWindow ();
    
+	std::string espace;
 private:
   std::unique_ptr<sf::RenderWindow> window;
   View *current_view;

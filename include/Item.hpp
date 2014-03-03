@@ -21,7 +21,7 @@ class Item : public sf::Sprite
 	unsigned int getValue () const;
 
 	void destroy ();
-	void repair () {destroyed = false;}
+	void repair ();
 
 	bool isDestroyed () const;
 	bool isMoving() const;

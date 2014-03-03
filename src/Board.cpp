@@ -37,33 +37,6 @@ void Board::randomFill ()
   for (unsigned int i(0) ; i < total_size ; ++i)
 		{
 			changeItem(i % cols, i / cols);
-
-
-			/* items[i] = std::move(game.getItemFactory().createObject("PATATO"));
-				 removed_items[i] = false;
-
-				 sf::Vector2u texture_size(items[i]->getTexture()->getSize());
-				 items[i]->setScale(static_cast<float>(cell_size) / texture_size.x,
-				 static_cast<float>(cell_size) / texture_size.y);
-
-				 if(i<total_size-1){
-				 items[i+1] = std::move(game.getItemFactory().createObject("Salad"));
-				 removed_items[i+1] = false;
-
-				 sf::Vector2u texture_size(items[i+1]->getTexture()->getSize());
-				 items[i+1]->setScale(static_cast<float>(cell_size) / texture_size.x,
-				 static_cast<float>(cell_size) / texture_size.y);
-				 }
-
-				 if(i<total_size-2){
-				 items[i+2] = std::move(game.getItemFactory().createObject("Carrot"));
-				 removed_items[i+2] = false;
-
-				 sf::Vector2u texture_size(items[i+2]->getTexture()->getSize());
-				 items[i+2]->setScale(static_cast<float>(cell_size) / texture_size.x,
-				 static_cast<float>(cell_size) / texture_size.y);
-				 }
-			*/
 		}
 }
 
@@ -156,7 +129,7 @@ bool Board::areNext(unsigned int source, unsigned int target) const
 
 void Board::resetSelected(unsigned int selected)
 {
-  items[selected]->setColor(sf::Color::White);
+	//  items[selected]->setColor(sf::Color::White);
 }
 
 
@@ -178,30 +151,36 @@ void Board::fillBlanks()
 
 std::pair<unsigned int, unsigned int> Board::update ()
 {
+	std::cout << game.espace << __func__ << std::endl;
+	game.espace+="  ";
 	last_move_value = 0;
 	combo_wombo = 0;
 
   if (!areItemsMoving())
 		{
 			do {
-
 				fillBlanks();
 
-				updateRowsAndCols();
-
-				for (unsigned int i = 0; i < cols; ++i)
-					applyGravity(i);
+				if (!areItemsMoving())
+					{		
+						updateRowsAndCols();
+						for (unsigned int i = 0; i < cols; ++i)
+							applyGravity(i);
+					}
 
 			} while (!isStable());
 		}
 
   updatePositions();
 
+	game.espace=game.espace.substr(0, game.espace.size()-2);
 	return std::make_pair(last_move_value, combo_wombo);
 }
 
 void Board::updateLine (const unsigned int begin, const unsigned int end, const unsigned int offset)
 {
+	std::cout << game.espace << __func__ << std::endl;
+	game.espace+="  ";
   Item *previous_item(items[begin].get());
   unsigned int cpt(0);
 
@@ -234,12 +213,15 @@ void Board::updateLine (const unsigned int begin, const unsigned int end, const 
 			current += offset;
 			previous_item = current_item;
 		}
+	game.espace=game.espace.substr(0, game.espace.size()-2);
 }
 
 void Board::markForRemoval (unsigned int begin, const unsigned int end, const unsigned int offset)
 {
+	std::cout << game.espace << __func__ << std::endl;
+	game.espace+="  ";
 	
-		++combo_wombo;
+	++combo_wombo;
 
   while (begin <= end)
 		{
@@ -247,6 +229,7 @@ void Board::markForRemoval (unsigned int begin, const unsigned int end, const un
 			last_move_value += items[begin]->getValue() * combo_wombo;
 			begin += offset;
 		}
+	game.espace=game.espace.substr(0, game.espace.size()-3);
 }
 
 bool Board::isStable () const
@@ -259,6 +242,8 @@ bool Board::isStable () const
 
 void Board::updateRowsAndCols ()
 {
+	std::cout << game.espace << __func__ << std::endl;
+	game.espace+="  ";
   for (unsigned int i(0) ; i < rows; ++i)
 		{
 			updateLine(i * cols, (i+1) * cols, 1);
@@ -268,6 +253,8 @@ void Board::updateRowsAndCols ()
 		{
 			updateLine(i, cols * rows + i, cols);
 		}
+
+	game.espace=game.espace.substr(0, game.espace.size()-2);
 }
 
 void Board::applyGravity (const unsigned int col)

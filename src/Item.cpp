@@ -8,7 +8,7 @@ Item::Item (const std::string &name, const unsigned int points) :
   name(name),
 	value(points),
   destroyed(false),
-  moving(false)
+  moving(true)
 {}
 
 Item::~Item ()
@@ -63,7 +63,22 @@ unsigned int Item::getValue () const
 
 void Item::destroy ()
 {
-  destroyed = true;
+	if (!destroyed)
+		{
+			destroyed = true;
+			setColor(sf::Color::Black);
+			scale(0.5f, 0.5f);
+		}
+}
+
+void Item::repair () 
+{
+	if (destroyed)
+		{
+			destroyed = false;
+			setColor(sf::Color::White);
+			scale(2.f, 2.f);
+		}
 }
 
 bool Item::isDestroyed () const
