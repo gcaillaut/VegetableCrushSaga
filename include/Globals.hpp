@@ -7,6 +7,8 @@
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 
+#include <yaml-cpp/yaml.h>
+
 #include "View.hpp"
 #include "Factory.hpp"
 #include "RessourceManager.hpp"
@@ -47,7 +49,8 @@ class Globals
 
 	std::map<std::string, View*> view_map;
 
-	void addTexture(std::string name);
+	bool loadTextures(YAML::Node node);
+	static Item* createItem(std::string name, unsigned int value);
 
 	bool running;
 

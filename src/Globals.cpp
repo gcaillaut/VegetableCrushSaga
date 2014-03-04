@@ -6,9 +6,8 @@
 #include "Factory.hpp"
 #include "BasicItem.hpp"
 
-#include "createFunc.hpp"
-
 Globals globals;
+
 
 Globals::Globals () :
   window(nullptr),
@@ -21,24 +20,24 @@ Globals::~Globals ()
 {}
 
 void Globals::init ()
-{
-  window.reset(new sf::RenderWindow(sf::VideoMode(1280, 720), "Test",
-									sf::Style::Default & ~sf::Style::Resize));
+{	
+	YAML::Node config(YAML::LoadFile("assets/config.yml"));
+	
+	if (!config["graphic"]["window"]["size"])
+		exit(EXIT_FAILURE);
+
+	if (!config["graphic"]["textures"])
+		exit(EXIT_FAILURE);
+	
+	sf::Vector2u window_size(config["graphic"]["window"]["size"][0].as<unsigned>(),
+													 config["graphic"]["window"]["size"][1].as<unsigned>());
+
+  window.reset(new sf::RenderWindow(sf::VideoMode(window_size.x, window_size.y), "Test", sf::Style::Default & ~sf::Style::Resize));
   window->setFramerateLimit(60);
 
-  addTexture("Carrot");
-  addTexture("Strawberry");
-  addTexture("Mushroom");
-  addTexture("Aubergine");
-  addTexture("Banana");
-  addTexture("Watermelon");
+	loadTextures(config["graphic"]["textures"]);
 
-  item_factory.registerObject("Carrot", createCarrot);
-  item_factory.registerObject("Strawberry", createStrawberry);
-  item_factory.registerObject("Mushroom", createMushroom);
-  item_factory.registerObject("Aubergine", createAubergine);
-  item_factory.registerObject("Banana", createBanana);
-  item_factory.registerObject("Watermelon", createWatermelon);
+
 }
 
 View* Globals::getCurrentView () const
@@ -112,12 +111,35 @@ const sf::Sprite &Globals::getLastCapture() const
   return gameSprite;
 }
 
-void Globals::addTexture(std::string name)
+bool Globals::loadTextures(YAML::Node node)
 {
-  static unsigned int counter = 1;
+	if (!node["texture_pack"])
+		return false;
 
-  textures_manager.createRessource(name);
-  textures_manager.getRessource(name)->loadFromFile("assets/item" + std::to_string(counter) + ".png");
+	std::string texture_pack = node["texture_pack"].as<std::string>();
 
-  ++counter;
+	if (!node["items"])
+		return false;
+
+	for (auto n: node["items"])
+		{
+			std::string name(n.first.as<std::string>());
+			std::string filename(n.second.as<std::string>());
+ 
+			textures_manager.createRessource(name);
+			textures_manager.getRessource(name)->loadFromFile(texture_pack + "/" + filename);
+
+			item_factory.registerObject(name, [name]() {
+					return createItem(name, 5);
+				});
+		}
+
+  return true;
+}
+
+Item* Globals::createItem(std::string name, unsigned int value)
+{
+	Item* item(new BasicItem(name, value));
+	item->setTexture(*globals.getTexturesManager().getRessource(name));
+	return item;
 }

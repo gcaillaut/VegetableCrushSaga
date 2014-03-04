@@ -1,19 +1,20 @@
----
-graphic:
-  window:
-    size: [1280, 720]
-  textures:
-    texture_pack: 'assets/graphics/default'
+--- 
+graphic: 
+  fonts: 
+    font_pack: assets/fonts/default
+    wombo_font: broken_15.ttf
+  textures: 
+    item_background: crate.png
     items: 
-      Carrot: item1.png
-      Strawberry: item2.png
-      Mushroom: item3.png
       Aubergine: item4.png
       Banana: item5.png
+      Carrot: item1.png
+      Mushroom: item3.png
+      Strawberry: item2.png
       Watermelon: item6.png
-    item_background: crate.png
+    texture_pack: assets/graphics/default
     window_background: grass.png
-
-  fonts: 
-    font_pack: 'assets/fonts/default'
-    wombo_font: broken_15.ttf
+  window: 
+    size: 
+      - 1280
+      - 720
