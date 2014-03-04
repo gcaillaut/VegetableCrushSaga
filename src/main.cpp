@@ -9,6 +9,8 @@
 
 #include "Game.hpp"
 
+#include <SFML/Graphics.hpp>
+
 int main ()
 {
   globals.init();

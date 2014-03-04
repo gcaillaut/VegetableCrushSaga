@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include <SFML/Graphics/Texture.hpp>
 
 #include "Globals.hpp"
@@ -21,23 +23,29 @@ Globals::~Globals ()
 
 void Globals::init ()
 {	
-	YAML::Node config(YAML::LoadFile("assets/config.yml"));
-	
-	if (!config["graphic"]["window"]["size"])
-		exit(EXIT_FAILURE);
+	try
+		{
+			YAML::Node config(YAML::LoadFile("assets/config.yml"));
+			config = config["game"];
 
-	if (!config["graphic"]["textures"])
-		exit(EXIT_FAILURE);
-	
-	sf::Vector2u window_size(config["graphic"]["window"]["size"][0].as<unsigned>(),
-													 config["graphic"]["window"]["size"][1].as<unsigned>());
+			sf::Vector2u window_size(config["graphic"]["window"]["size"][0].as<unsigned>(),
+															 config["graphic"]["window"]["size"][1].as<unsigned>());
 
-  window.reset(new sf::RenderWindow(sf::VideoMode(window_size.x, window_size.y), "Test", sf::Style::Default & ~sf::Style::Resize));
-  window->setFramerateLimit(60);
+			window.reset(new sf::RenderWindow(sf::VideoMode(window_size.x, window_size.y), "Test", sf::Style::Default & ~sf::Style::Resize));
+			window->setFramerateLimit(60);
 
-	loadTextures(config["graphic"]["textures"]);
+			YAML::Node paths(config["system"]["paths"]);
+			loadTextures(config["graphic"]["textures"], paths["texture_pack"].as<std::string>());
 
-
+			YAML::Node items(config["gameplay"]["items"]);
+			loadItems(items);
+		}
+	catch (YAML::ParserException e)
+		{
+			std::cerr << "Le fichier de config n'est pas aux normes !" << std::endl;
+			std::cerr << e.what() << std::endl;
+ 			exit(EXIT_FAILURE);
+		}
 }
 
 View* Globals::getCurrentView () const
@@ -111,30 +119,43 @@ const sf::Sprite &Globals::getLastCapture() const
   return gameSprite;
 }
 
-bool Globals::loadTextures(YAML::Node node)
+bool Globals::loadTextures(YAML::Node node, const std::string & path)
 {
-	if (!node["texture_pack"])
+	if (!node)
 		return false;
 
-	std::string texture_pack = node["texture_pack"].as<std::string>();
-
-	if (!node["items"])
-		return false;
-
-	for (auto n: node["items"])
+	for (auto n: node)
 		{
 			std::string name(n.first.as<std::string>());
 			std::string filename(n.second.as<std::string>());
- 
-			textures_manager.createRessource(name);
-			textures_manager.getRessource(name)->loadFromFile(texture_pack + "/" + filename);
 
-			item_factory.registerObject(name, [name]() {
-					return createItem(name, 5);
-				});
+			textures_manager.createRessource(name);
+			textures_manager.getRessource(name)->loadFromFile(path + "/" + filename);
 		}
 
   return true;
+}
+
+bool Globals::loadItems (YAML::Node node)
+{
+	unsigned score_basic(node["values"]["basic"].as<unsigned>());
+	unsigned score_special(node["values"]["special"].as<unsigned>());
+
+	for (size_t i(0) ; i < node["names"]["basic"].size() ; ++i)
+		{
+			std::string name(node["names"]["basic"][i].as<std::string>());
+			if (!textures_manager.getRessource(name))
+				{
+					std::cout << "Attention, la texture de \"" << name << "\" n'existe pas !" << std::endl;
+				}
+			else
+				{
+					item_factory.registerObject(name, [name,score_basic]() {
+							return createItem(name, score_basic);
+						});
+				}
+		}
+	return true;
 }
 
 Item* Globals::createItem(std::string name, unsigned int value)
