@@ -102,7 +102,7 @@ View* Globals::getView(std::string name)
 
 void Globals::captureScreen()
 {
-  sf::Image image = window->capture();
+  sf::Image image(window->capture());
   gameTexture.loadFromImage(image);
   gameSprite.setTexture(gameTexture);
 }
