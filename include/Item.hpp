@@ -13,7 +13,8 @@ class Item : public sf::Sprite
 	Item(const std::string &name, const unsigned int points);
 	virtual ~Item ();
 
-	virtual void update(Board & board, sf::Vector2f pos) = 0;
+	virtual void create_callback(Board & board, unsigned int pos);
+	virtual void destroy_callback(Board & board, unsigned int pos);
 
 	void goTo (const sf::Vector2f & pos);
 

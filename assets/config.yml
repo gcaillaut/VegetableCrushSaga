@@ -26,6 +26,7 @@ game:
       Watermelon: item6.png
       item_background: crate.png
       window_background: grass.png
+      special_item: special.png
     window: 
       size: 
         - 1280

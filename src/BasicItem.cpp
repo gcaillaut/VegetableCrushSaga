@@ -10,9 +10,14 @@ BasicItem::BasicItem (const std::string &name, const unsigned int points) :
 BasicItem::~BasicItem ()
 {}
 
-void BasicItem::update (Board & board, sf::Vector2f pos)
+void BasicItem::create_callback (Board & board, unsigned int pos)
 {
+	Item::create_callback(board, pos);
+}
 
+void BasicItem::destroy_callback (Board & board, unsigned int pos)
+{
+	
 }
 
 BasicItem *BasicItem::clone()

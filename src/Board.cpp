@@ -5,6 +5,7 @@
 
 #include "Board.hpp"
 #include "Item.hpp"
+#include "SpecialItem.hpp"
 #include "Globals.hpp"
 
 #include "Game.hpp"
@@ -142,16 +143,18 @@ void Board::changeItem(unsigned int x, unsigned int y)
   unsigned int pos(x + y*cols);
   unsigned int key_ind(generator() % available_items.size());
 
-  items[pos] = std::move(globals.getItemFactory().createObject(available_items[key_ind]));
+	if (generator() % 10 < 8)
+		{
+			items[pos] = std::move(globals.getItemFactory().createObject(available_items[key_ind]));
+		}
+	else
+		{
+			items[pos] = std::unique_ptr<SpecialItem>(new SpecialItem(available_items[key_ind], 10));
+			items[pos]->setTexture(*globals.getTexturesManager().getRessource(available_items[key_ind]));
+			std::cout << items[pos]->getTexture()->getSize().x << std::endl;
+		}
 
-  sf::Vector2u texture_size(items[pos]->getTexture()->getSize());
-  items[pos]->setOrigin(texture_size.x / 2, texture_size.y / 2);
-  items[pos]->setScale(static_cast<float>(cell_size) / texture_size.x,
-					   static_cast<float>(cell_size) / texture_size.y);
-
-  items[pos]->scale(0.8f, 0.8f);
-
-  items[pos]->setPosition(0, -static_cast<int>(cell_size));
+	items[pos]->create_callback(*this, pos);
 }
 
 bool Board::areNext(unsigned int source, unsigned int target) const

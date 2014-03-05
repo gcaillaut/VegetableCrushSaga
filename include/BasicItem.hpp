@@ -11,7 +11,8 @@ class BasicItem : public Item
 	BasicItem(const std::string &name, const unsigned int points);
 	virtual ~BasicItem ();
 
-	virtual void update(Board & board, sf::Vector2f pos);
+	virtual void create_callback(Board & board, unsigned int pos);
+	virtual void destroy_callback(Board & board, unsigned int pos);
 	virtual BasicItem* clone();
 
   private:
