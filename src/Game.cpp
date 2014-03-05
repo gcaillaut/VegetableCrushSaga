@@ -159,7 +159,7 @@ void Game::updateGame()
 
 void Game::addPoints(unsigned int value)
 {
-  score += value;
+  score += value * combo;
 }
 
 void Game::setCombo(unsigned int combo)

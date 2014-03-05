@@ -7,9 +7,9 @@ game:
           - Aubergine
           - Banana
           - Carrot
-          # - Mushroom
-          # - Strawberry
-          # - Watermelon
+          - Mushroom
+          - Strawberry
+          - Watermelon
         special: ~
       values: 
         basic: 5

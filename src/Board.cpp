@@ -185,20 +185,20 @@ void Board::fillBlanks()
 void Board::update ()
 {
   do {
-	fillBlanks();
+		fillBlanks();
 
-	updateRowsAndCols();
+		updateRowsAndCols();
 
-	for (unsigned int i = 0; i < cols; ++i)
-	  applyGravity(i);
+		for (unsigned int i = 0; i < cols; ++i)
+			applyGravity(i);
 
   } while (!isStable());
 
+  if (combo)
+		game.setCombo(combo);
+
   game.addPoints(last_move_score);
   last_move_score = 0;
-
-  if (combo)
-	game.setCombo(combo);
 
   updatePositions();
 }
