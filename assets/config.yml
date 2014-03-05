@@ -1,20 +1,36 @@
 --- 
-graphic: 
-  fonts: 
-    font_pack: assets/fonts/default
-    wombo_font: broken_15.ttf
-  textures: 
-    item_background: crate.png
+game: 
+  gameplay: 
     items: 
+      names: 
+        basic: 
+          - Aubergine
+          - Banana
+          - Carrot
+          # - Mushroom
+          # - Strawberry
+          # - Watermelon
+        special: ~
+      values: 
+        basic: 5
+        special: 10
+  graphic: 
+    fonts: 
+      wombo_font: broken_15.ttf
+    textures: 
       Aubergine: item4.png
       Banana: item5.png
       Carrot: item1.png
       Mushroom: item3.png
       Strawberry: item2.png
       Watermelon: item6.png
-    texture_pack: assets/graphics/default
-    window_background: grass.png
-  window: 
-    size: 
-      - 1280
-      - 720
+      item_background: crate.png
+      window_background: grass.png
+    window: 
+      size: 
+        - 1280
+        - 720
+  system: 
+    paths: 
+      font_pack: assets/fonts/default
+      texture_pack: assets/graphics/default

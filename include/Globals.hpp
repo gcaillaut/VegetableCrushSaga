@@ -19,7 +19,7 @@ typedef RessourcesManager<sf::Texture, std::string> TexturesManager;
 
 class Globals
 {
-  public:
+public:
 	Globals ();
 	~Globals ();
 
@@ -40,7 +40,11 @@ class Globals
 	void captureScreen();
 	const sf::Sprite& getLastCapture() const;
 
-  private:
+private:
+	bool loadTextures(YAML::Node node, const std::string & path);
+	bool loadItems (YAML::Node node);
+	static Item* createItem(std::string name, unsigned int value);
+
 	std::unique_ptr<sf::RenderWindow> window;
 	View *current_view;
 
@@ -48,9 +52,6 @@ class Globals
 	TexturesManager textures_manager;
 
 	std::map<std::string, View*> view_map;
-
-	bool loadTextures(YAML::Node node);
-	static Item* createItem(std::string name, unsigned int value);
 
 	bool running;
 
