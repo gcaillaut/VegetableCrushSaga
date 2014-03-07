@@ -1,8 +1,9 @@
 #ifndef INCLUDED_FACTORY_HPP
 #define INCLUDED_FACTORY_HPP
 
+#include <algorithm>
 #include <functional>
-#include <map>
+#include <unordered_map>
 #include <memory>
 #include <string>
 #include <vector>
@@ -48,7 +49,7 @@ public:
   }
 
 private:
-  std::map<Key, std::function<T*()>> registered_objects;
+  std::unordered_map<Key, std::function<T*()>> registered_objects;
 };
 
 #endif /* INCLUDED_FACTORY_HPP */

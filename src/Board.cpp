@@ -1,4 +1,3 @@
-#include <chrono>
 #include <iostream>
 
 #include <SFML/Graphics/Texture.hpp>
@@ -9,6 +8,7 @@
 #include "Globals.hpp"
 
 #include "Game.hpp"
+#include "UniformItemGenerator.hpp"
 
 Board::Board (unsigned int x, unsigned int y, unsigned int width, unsigned int height, unsigned int cell_size, Game &game) :
   cell_size(cell_size),
@@ -16,8 +16,7 @@ Board::Board (unsigned int x, unsigned int y, unsigned int width, unsigned int h
   cols(width),
   rows(height),
   items(total_size),
-  available_items(globals.getItemFactory().getAvailableKeys()),
-  generator(std::chrono::system_clock::now().time_since_epoch().count()),
+	item_generator(new UniformItemGenerator),
   last_move_score(0),
   combo(0),
   game(game)
@@ -30,6 +29,13 @@ Board::Board (unsigned int x, unsigned int y, unsigned int width, unsigned int h
   board_shape.setTexture(board_shape_texture);
   board_shape.setPosition(x, y);
 
+	item_generator->registerItem("Aubergine");
+	item_generator->registerItem("Strawberry");
+	item_generator->registerItem("Mushroom");
+	item_generator->registerItem("Banana");
+	item_generator->registerItem("Watermelon");
+	item_generator->registerItem("Carrot");
+     
   float right_scale = (float)cell_size / (float)board_shape_texture.getSize().x;
   sf::IntRect texture_rect = board_shape.getTextureRect();
 
@@ -42,32 +48,32 @@ Board::Board (unsigned int x, unsigned int y, unsigned int width, unsigned int h
   randomFill();
 
   do
-  {
-	fillBlanks();
+		{
+			fillBlanks();
 
-	for (unsigned int i(0) ; i < rows; ++i)
-	{
-	  updateLine(i * cols, (i+1) * cols, 1);
-	}
+			for (unsigned int i(0) ; i < rows; ++i)
+				{
+					updateLine(i * cols, (i+1) * cols, 1);
+				}
 
-	for (unsigned int i(0) ; i < cols; ++i)
-	{
-	  updateLine(i, cols * rows + i, cols);
-	}
+			for (unsigned int i(0) ; i < cols; ++i)
+				{
+					updateLine(i, cols * rows + i, cols);
+				}
 
-	for (unsigned int i = 0; i < cols; ++i)
-	{
-	  applyGravity(i);
-	}
+			for (unsigned int i = 0; i < cols; ++i)
+				{
+					applyGravity(i);
+				}
 
-  } while (!isStable());
+		} while (!isStable());
 
   // A ce point, le jeu est stable
   last_move_score = combo = 0;
   std::for_each(items.begin(), items.end(), [](std::unique_ptr<Item>& item)
-  {
-	item->swapped = false;
-  });
+								{
+									item->swapped = false;
+								});
 }
 
 Board::~Board ()
@@ -76,9 +82,9 @@ Board::~Board ()
 void Board::randomFill ()
 {
   for (unsigned int i(0) ; i < total_size ; ++i)
-  {
-	changeItem(i % cols, i / cols);
-  }
+		{
+			changeItem(i % cols, i / cols);
+		}
 }
 
 const std::vector<std::unique_ptr<Item> >& Board::getItems () const
@@ -141,19 +147,8 @@ void Board::swapItems (const unsigned int src, const unsigned int dest)
 void Board::changeItem(unsigned int x, unsigned int y)
 {
   unsigned int pos(x + y*cols);
-  unsigned int key_ind(generator() % available_items.size());
 
-	if (generator() % 10 < 8)
-		{
-			items[pos] = std::move(globals.getItemFactory().createObject(available_items[key_ind]));
-		}
-	else
-		{
-			items[pos] = std::unique_ptr<SpecialItem>(new SpecialItem(available_items[key_ind], 10));
-			items[pos]->setTexture(*globals.getTexturesManager().getRessource(available_items[key_ind]));
-			std::cout << items[pos]->getTexture()->getSize().x << std::endl;
-		}
-
+	items[pos] = std::move(item_generator->generate());
 	items[pos]->create_callback(*this, pos);
 }
 
@@ -162,11 +157,11 @@ bool Board::areNext(unsigned int source, unsigned int target) const
   unsigned int tmp(source % cols);
 
   if (target >= total_size)
-	return false;
+		return false;
   if (tmp == 0 && source == target + 1)
-	return false;
+		return false;
   if (tmp == cols - 1 && source == target - 1)
-	return false;
+		return false;
 
   return target == source - 1
 	  || target == source + 1
@@ -177,12 +172,12 @@ bool Board::areNext(unsigned int source, unsigned int target) const
 void Board::fillBlanks()
 {
   for (unsigned int i(0) ; i < total_size ; ++i)
-  {
-	if (items[i]->isDestroyed())
-	{
-	  changeItem(i % cols, i / cols);
-	}
-  }
+		{
+			if (items[i]->isDestroyed())
+				{
+					changeItem(i % cols, i / cols);
+				}
+		}
 }
 
 void Board::update ()
@@ -213,32 +208,32 @@ void Board::updateLine (const unsigned int begin, const unsigned int end, const 
   unsigned int current(begin + offset);
 
   while (current < end)
-  {
-	Item *current_item(items[current].get());
-	if (previous_item && current_item)
-	{
-	  if (*previous_item != *current_item)
-	  {
-		if (cpt >= 2)
 		{
-		  markForRemoval(current - offset*(cpt+1), current - offset, offset);
-		}
-		cpt = 0;
-	  }
-	  else
-	  {
-		++cpt;
-		if (cpt >= 2 && current == end - offset)
-		{
-		  markForRemoval(current - offset*(cpt), current, offset);
-		}
-	  }
-	}
-	else {cpt = 0;}
+			Item *current_item(items[current].get());
+			if (previous_item && current_item)
+				{
+					if (*previous_item != *current_item)
+						{
+							if (cpt >= 2)
+								{
+									markForRemoval(current - offset*(cpt+1), current - offset, offset);
+								}
+							cpt = 0;
+						}
+					else
+						{
+							++cpt;
+							if (cpt >= 2 && current == end - offset)
+								{
+									markForRemoval(current - offset*(cpt), current, offset);
+								}
+						}
+				}
+			else {cpt = 0;}
 
-	current += offset;
-	previous_item = current_item;
-  }
+			current += offset;
+			previous_item = current_item;
+		}
 }
 
 void Board::markForRemoval (unsigned int begin, const unsigned int end, const unsigned int offset)
@@ -246,36 +241,36 @@ void Board::markForRemoval (unsigned int begin, const unsigned int end, const un
   ++combo;
 
   while (begin <= end)
-  {
-	last_move_score += items[begin]->getValue();
+		{
+			last_move_score += items[begin]->getValue();
 
-	items[begin]->destroy();
-	begin += offset;
-  }
+			items[begin]->destroy();
+			begin += offset;
+		}
 }
 
 bool Board::isStable () const
 {
   return !std::any_of(items.cbegin(), items.cend(), [](const std::unique_ptr<Item> &item)
-  {
-	return item->isDestroyed();
-  });
+											{
+												return item->isDestroyed();
+											});
 }
 
 void Board::updateRowsAndCols ()
 {
   if (!areItemsMoving())
-  {
-	for (unsigned int i(0) ; i < rows; ++i)
-	{
-	  updateLine(i * cols, (i+1) * cols, 1);
-	}
+		{
+			for (unsigned int i(0) ; i < rows; ++i)
+				{
+					updateLine(i * cols, (i+1) * cols, 1);
+				}
 
-	for (unsigned int i(0) ; i < cols; ++i)
-	{
-	  updateLine(i, cols * rows + i, cols);
-	}
-  }
+			for (unsigned int i(0) ; i < cols; ++i)
+				{
+					updateLine(i, cols * rows + i, cols);
+				}
+		}
 }
 
 void Board::saveState()
@@ -283,72 +278,72 @@ void Board::saveState()
   last_items.clear();
 
   for (auto& ptr: items)
-  {
-	last_items.push_back(std::unique_ptr<Item>(ptr->clone()));
-  }
+		{
+			last_items.push_back(std::unique_ptr<Item>(ptr->clone()));
+		}
 }
 
 void Board::loadState()
 {
   if (last_items.empty())
-	return;
+		return;
 
   items.clear();
 
   for (auto& ptr: last_items)
-  {
-	items.push_back(std::unique_ptr<Item>(ptr->clone()));
-  }
+		{
+			items.push_back(std::unique_ptr<Item>(ptr->clone()));
+		}
 }
 
 void Board::applyGravity (const unsigned int col)
 {
   for (int i(col + cols * (rows-1)) ; i >= 0; i -= cols)
-  {
-	/*
-	 * Si l'item i est supprimé, on doit le remplacer par l'item au dessus le plus proche
-	 */
-	if (items[i]->isDestroyed())
-	{
-	  int next(i - cols);
+		{
+			/*
+			 * Si l'item i est supprimé, on doit le remplacer par l'item au dessus le plus proche
+			 */
+			if (items[i]->isDestroyed())
+				{
+					int next(i - cols);
 
-	  /*
-	   * si next < 0, alors il n'y a pas d'item au dessus de i
-	   */
-	  while (next >= 0 && items[next]->isDestroyed())
-	  {
-		next -= cols;
-	  }
+					/*
+					 * si next < 0, alors il n'y a pas d'item au dessus de i
+					 */
+					while (next >= 0 && items[next]->isDestroyed())
+						{
+							next -= cols;
+						}
 
-	  if (next >= 0)
-	  {
-		swapItems(i, next);
-	  }
-	}
-  }
+					if (next >= 0)
+						{
+							swapItems(i, next);
+						}
+				}
+		}
 }
 
 void Board::updatePositions ()
 {
   for (unsigned int j = 0; j < rows; ++j)
-  {
-	for (unsigned int i = 0; i < cols; ++i)
-	{
-	  if (items[i + j*cols].get())
-	  {
-		float new_x(i * cell_size + cell_size / 2 + dimensions.left);
-		float new_y(j * cell_size + cell_size / 2 + dimensions.top);
+		{
+			for (unsigned int i = 0; i < cols; ++i)
+				{
+					if (items[i + j*cols].get())
+						{
+							float new_x(i * cell_size + cell_size / 2 + dimensions.left);
+							float new_y(j * cell_size + cell_size / 2 + dimensions.top);
 
-		items[i + j*cols]->goTo(sf::Vector2f(new_x, new_y));
-	  }
-	}
-  }
+							items[i + j*cols]->goTo(sf::Vector2f(new_x, new_y));
+						}
+				}
+		}
 }
 
 bool Board::areItemsMoving()
 {
   return std::any_of(items.cbegin(), items.cend(), [](const std::unique_ptr<Item>& i)
-  { return i->isMoving(); });
+										 { return i->isMoving(); });
 }
 
 void Board::resetLastScore()

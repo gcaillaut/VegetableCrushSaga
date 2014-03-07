@@ -2,7 +2,6 @@
 #define INCLUDED_BOARD_HPP
 
 #include <memory>
-#include <random>
 #include <vector>
 
 #include <SFML/Graphics/Rect.hpp>
@@ -11,6 +10,8 @@
 
 class Item;
 class Game;
+
+class ItemGenerator;
 
 class Board
 {
@@ -50,7 +51,7 @@ class Board
 
 	void resetLastScore();
 
-  private:
+private:
 	unsigned int cell_size;
 	unsigned int total_size;
 	unsigned int cols;
@@ -61,9 +62,7 @@ class Board
 	std::vector<std::unique_ptr<Item>> items;
 	std::vector<std::unique_ptr<Item>> last_items;
 
-	std::vector<std::string> available_items;
-
-	std::minstd_rand0 generator;
+	std::unique_ptr<ItemGenerator> item_generator;
 
 	sf::Sprite board_shape;
 	sf::Texture board_shape_texture;
