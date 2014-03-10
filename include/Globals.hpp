@@ -43,8 +43,9 @@ public:
 private:
 	bool loadTextures(YAML::Node node, const std::string & path);
 	bool loadItems (YAML::Node node);
-	static Item* createItem(std::string name, unsigned int value);
-
+	static Item* createBasicItem(std::string name, unsigned int value);
+	static Item* createSpecialItem(std::string name, unsigned int value);
+ 
 	std::unique_ptr<sf::RenderWindow> window;
 	View *current_view;
 

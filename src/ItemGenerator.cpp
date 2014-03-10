@@ -2,7 +2,9 @@
 
 #include "Globals.hpp"
 
-ItemGenerator::ItemGenerator ()
+ItemGenerator::ItemGenerator () :
+	registered_items(),
+	forced_items()
 {
 	factory = globals.getItemFactory();
 }

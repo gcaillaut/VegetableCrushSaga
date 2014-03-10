@@ -7,6 +7,7 @@
 #include "Item.hpp"
 #include "Factory.hpp"
 #include "BasicItem.hpp"
+#include "SpecialItem.hpp"
 
 Globals globals;
 
@@ -151,16 +152,43 @@ bool Globals::loadItems (YAML::Node node)
 			else
 				{
 					item_factory.registerObject(name, [name,score_basic]() {
-							return createItem(name, score_basic);
+							return createBasicItem(name, score_basic);
 						});
 				}
 		}
+
+	for (size_t i(0) ; i < node["names"]["special"].size() ; ++i)
+		{
+			std::string name(node["names"]["special"][i].as<std::string>());
+			if (!textures_manager.getRessource(name))
+				{
+					std::cout << "Attention, la texture de \"" << name << "\" n'existe pas !" << std::endl;
+				}
+			else
+				{
+					item_factory.registerObject(name, [name,score_special]() {
+							return createSpecialItem(name, score_special);
+						});
+				}
+		}
+
+
+
 	return true;
 }
 
-Item* Globals::createItem(std::string name, unsigned int value)
+Item* Globals::createBasicItem(std::string name, unsigned int value)
 {
 	Item* item(new BasicItem(name, value));
+	item->setTexture(*globals.getTexturesManager().getRessource(name));
+	return item;
+}
+
+Item* Globals::createSpecialItem(std::string name, unsigned int value)
+{
+	// 7 est la taille de "Special"
+	std::string basic_name(name.substr(0, name.size() - 7));
+	Item* item(new SpecialItem(basic_name, value));
 	item->setTexture(*globals.getTexturesManager().getRessource(name));
 	return item;
 }

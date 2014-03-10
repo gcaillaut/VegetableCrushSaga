@@ -10,7 +10,13 @@ game:
           - Mushroom
           - Strawberry
           - Watermelon
-        special: ~
+        special: 
+          - CarrotSpecial
+          - AubergineSpecial
+          - BananaSpecial
+          - MushroomSpecial
+          - StrawberrySpecial
+          - WatermelonSpecial
       values: 
         basic: 5
         special: 10
@@ -19,14 +25,19 @@ game:
       wombo_font: broken_15.ttf
     textures: 
       Aubergine: item4.png
+      AubergineSpecial: special_item4.png
       Banana: item5.png
+      BananaSpecial: special_item5.png
       Carrot: item1.png
+      CarrotSpecial: special_item1.png
       Mushroom: item3.png
+      MushroomSpecial: special_item3.png
       Strawberry: item2.png
+      StrawberrySpecial: special_item2.png
       Watermelon: item6.png
+      WatermelonSpecial: special_item6.png
       item_background: crate.png
       window_background: grass.png
-      special_item: special.png
     window: 
       size: 
         - 1280

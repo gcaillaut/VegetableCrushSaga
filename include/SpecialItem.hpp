@@ -19,9 +19,6 @@ public:
  	virtual SpecialItem* clone();
 
 private:
-	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
-
-	sf::Sprite overlay;
 };
 
 #endif /* INCLUDED_SPECIALITEM_HPP */
