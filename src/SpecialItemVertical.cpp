@@ -29,13 +29,15 @@ SpecialItemVertical *SpecialItemVertical::clone()
 
 void SpecialItemVertical::explode (Board & board, unsigned pos)
 {
-	if (pos % board.getRowsCount() > 0 && pos  < board.getTotalSize())
+	if (pos < board.getTotalSize())
 		{
 			explode(board, pos + board.getColsCount());
+		}
+
+	if (pos / board.getColsCount() > 0)
+		{
 			explode(board, pos - board.getColsCount());
 		}
-	else
-		{
-			board.removeItemAt(pos);
-		}
+
+	board.removeItemAt(pos);
 }
