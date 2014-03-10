@@ -17,7 +17,11 @@ public:
 	void forceGenerationOf (const std::string& key);
 	void registerItem (const std::string& key);
 
+	void generateSpecial(bool b);
+
 protected:
+	bool generate_special;
+
 	Factory<Item> factory;
 	std::vector<std::string> registered_items;
 	std::stack<std::string> forced_items;

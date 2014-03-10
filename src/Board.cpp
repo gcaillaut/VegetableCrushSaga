@@ -21,6 +21,8 @@ Board::Board (unsigned int x, unsigned int y, unsigned int width, unsigned int h
   combo(0),
   game(game)
 {
+	item_generator->generateSpecial(false);
+
   dimensions = {x, y, width*cell_size, height*cell_size};
 
   board_shape_texture.loadFromFile("assets/crate.png");
@@ -74,6 +76,8 @@ Board::Board (unsigned int x, unsigned int y, unsigned int width, unsigned int h
 								{
 									item->swapped = false;
 								});
+
+	item_generator->generateSpecial(true);
 }
 
 Board::~Board ()
@@ -220,7 +224,6 @@ void Board::updateLine (const unsigned int begin, const unsigned int end, const 
 									if (cpt > 2)
 										{
 											item_generator->forceGenerationOf(previous_item->getName() + "Special");
-std::cout << "ifun" << std::endl;
 										}
 								}
 							cpt = 0;
@@ -234,7 +237,6 @@ std::cout << "ifun" << std::endl;
 									if (cpt > 2)
 										{
 											item_generator->forceGenerationOf(previous_item->getName() + "Special");
-std::cout << "ifdeux" << std::endl;
 										}
 								}
 						}
