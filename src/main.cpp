@@ -20,7 +20,7 @@ int main ()
   GameView gameView(&gameController, &game, globals.getWindow());
 
   MenuController menuController(&game);
-  MenuView menuView(&menuController, &game, globals.getWindow());
+  MenuView menuView(&menuController, globals.getWindow());
 
   globals.addView("Game", &gameView);
   globals.addView("Menu", &menuView);

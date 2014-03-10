@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iterator>
 
 #include <SFML/Graphics/Texture.hpp>
 
@@ -285,27 +286,50 @@ void Board::updateRowsAndCols ()
 		}
 }
 
-void Board::saveState()
+bool Board::checkMovement (unsigned ind_first_item, unsigned ind_second_item) const
 {
-  last_items.clear();
-
-  for (auto& ptr: items)
+	if (validNeighbor(ind_first_item, ind_second_item)
+			|| validNeighbor(ind_second_item, ind_first_item))
 		{
-			last_items.push_back(std::unique_ptr<Item>(ptr->clone()));
+			return true;
 		}
+
+	return false;
 }
 
-void Board::loadState()
+bool Board::validNeighbor (int source, int dest) const
 {
-  if (last_items.empty())
-		return;
+	const Item & item(*items[source]);
+	std::array<unsigned, 4> counts{{0, 0, 0, 0}};
+	int dest_tmp(dest - 1);
 
-  items.clear();
-
-  for (auto& ptr: last_items)
+	while (dest_tmp > 0 && dest_tmp % cols != cols - 1 && item == *items[dest_tmp] && dest_tmp != source)
 		{
-			items.push_back(std::unique_ptr<Item>(ptr->clone()));
+			++counts[0];
+			--dest_tmp;
 		}
+
+	dest_tmp = dest + 1;
+	while (dest_tmp % cols != 0 && item == *items[dest_tmp] && dest_tmp != source)
+		{
+			++counts[1];
+			++dest_tmp;
+		}
+
+	dest_tmp = dest - cols;
+	while (dest_tmp > 0 && item == *items[dest_tmp] && dest_tmp != source)
+		{
+			++counts[2];
+			dest_tmp -= cols;
+		}
+
+	dest_tmp = dest + cols;
+	while (dest_tmp < (int)total_size && item == *items[dest_tmp] && dest_tmp != source)
+		{
+			++counts[3];
+			dest_tmp += cols;
+		}
+	return counts[0] + counts[1] >= 2 || counts[2] + counts[3] >= 2;
 }
 
 void Board::applyGravity (const unsigned int col)

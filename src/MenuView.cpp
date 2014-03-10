@@ -7,9 +7,8 @@
 
 #include <iostream>
 
-MenuView::MenuView(Controller *controller, Game *game, sf::RenderWindow &window):
+MenuView::MenuView(Controller *controller, sf::RenderWindow &window):
   View(controller),
-  game(game),
   window(window)
 {
   rectangle.setPosition(0, 0);

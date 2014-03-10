@@ -14,7 +14,7 @@ class Game;
 class MenuView: public View
 {
 	public:
-		MenuView (Controller *controller, Game *game, sf::RenderWindow& window);
+		MenuView (Controller *controller, sf::RenderWindow& window);
 		virtual ~MenuView();
 
 		virtual void clear ();
@@ -26,7 +26,6 @@ class MenuView: public View
 		virtual void loop();
 
 	private:
-		Game *game;
 		sf::RenderWindow& window;
 		sf::RectangleShape rectangle;
 

@@ -93,43 +93,27 @@ void Game::setReleasePosition(const float x, const float y)
 void Game::executeMovement()
 {
   if (first_selected)
-  {
-	if (second_selected)
-	{
-	  unsigned ind_first_item(board.posToInd(first_item));
-	  unsigned ind_second_item(board.posToInd(second_item));
-
-	  if (board.areNext(ind_first_item, ind_second_item))
-	  {
-		// Combo reset
-		board.resetLastScore();
-
-		board.saveState();
-
-		board.swapItems(ind_first_item, ind_second_item);
-		board.updateRowsAndCols();
-		board.resetLastScore();
-
-		if (board.isStable())
 		{
-		  board.loadState();
+			if (second_selected)
+				{
+					unsigned ind_first_item(board.posToInd(first_item));
+					unsigned ind_second_item(board.posToInd(second_item));
 
-		  registerMove(ind_first_item, ind_second_item);
-		  registerMove(ind_second_item, ind_first_item);
+					if (board.areNext(ind_first_item, ind_second_item))
+						{
+							if (board.checkMovement(ind_first_item, ind_second_item))
+								{
+									registerMove(ind_first_item, ind_second_item);
+								}
+							else
+								{
+									registerMove(ind_first_item, ind_second_item);
+									registerMove(ind_second_item, ind_first_item);
+								}
+						}
+					first_selected = second_selected = false;
+				}
 		}
-
-		// Coup valide !
-		else
-		{
-		  board.loadState();
-
-		  registerMove(ind_first_item, ind_second_item);
-		}
-	  }
-
-	  first_selected = second_selected = false;
-	}
-  }
 }
 
 void Game::registerMove(unsigned int source, unsigned int target)

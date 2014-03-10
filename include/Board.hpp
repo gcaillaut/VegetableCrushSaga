@@ -41,15 +41,14 @@ class Board
 
 	void updateRowsAndCols ();
 
-	void saveState();
-	void loadState();
-
 	void update ();
 
 	void updatePositions();
 	bool areItemsMoving();
 
 	void resetLastScore();
+
+	bool checkMovement (unsigned ind_first_item, unsigned ind_second_item) const;
 
 private:
 	unsigned int cell_size;
@@ -93,6 +92,8 @@ private:
 	void applyGravity(const unsigned int col);
 
 	void randomFill ();
+
+	bool validNeighbor (int source, int dest) const;
 };
 
 #endif /* INCLUDED_BOARD_HPP */
