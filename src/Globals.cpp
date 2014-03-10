@@ -7,7 +7,7 @@
 #include "Item.hpp"
 #include "Factory.hpp"
 #include "BasicItem.hpp"
-#include "SpecialItem.hpp"
+#include "SpecialItemBomb.hpp"
 
 Globals globals;
 
@@ -167,7 +167,7 @@ bool Globals::loadItems (YAML::Node node)
 			else
 				{
 					item_factory.registerObject(name, [name,score_special]() {
-							return createSpecialItem(name, score_special);
+							return createSpecialItemBomb(name, score_special);
 						});
 				}
 		}
@@ -184,11 +184,11 @@ Item* Globals::createBasicItem(std::string name, unsigned int value)
 	return item;
 }
 
-Item* Globals::createSpecialItem(std::string name, unsigned int value)
+Item* Globals::createSpecialItemBomb(std::string name, unsigned int value)
 {
 	// 7 est la taille de "Special"
 	std::string basic_name(name.substr(0, name.size() - 7));
-	Item* item(new SpecialItem(basic_name, value));
+	Item* item(new SpecialItemBomb(basic_name, value));
 	item->setTexture(*globals.getTexturesManager().getRessource(name));
 	return item;
 }

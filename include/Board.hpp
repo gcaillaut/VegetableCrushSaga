@@ -22,6 +22,7 @@ class Board
 
 	const std::vector<std::unique_ptr<Item>>& getItems () const;
 	std::unique_ptr<Item>& getItemAt (const unsigned int ind);
+	void removeItemAt (const unsigned int ind);
 
 	unsigned int getTotalSize () const;
 	unsigned int getRowsCount () const;

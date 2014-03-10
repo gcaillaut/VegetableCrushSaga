@@ -5,7 +5,7 @@
 
 #include "Board.hpp"
 #include "Item.hpp"
-#include "SpecialItem.hpp"
+#include "SpecialItemBomb.hpp"
 #include "Globals.hpp"
 
 #include "Game.hpp"
@@ -22,7 +22,7 @@ Board::Board (unsigned int x, unsigned int y, unsigned int width, unsigned int h
   combo(0),
   game(game)
 {
-	//item_generator->generateSpecial(false);
+	item_generator->generateSpecial(false);
 
   dimensions = {x, y, width*cell_size, height*cell_size};
 
@@ -99,7 +99,23 @@ const std::vector<std::unique_ptr<Item> >& Board::getItems () const
 
 std::unique_ptr<Item>& Board::getItemAt (const unsigned int ind)
 {
-  return ind < total_size ? items[ind] : Item::null_item;
+  if(ind < total_size)
+		{
+			if(!items[ind]->isDestroyed())
+				return items[ind];
+		}
+	return Item::null_item; 
+}
+
+void Board::removeItemAt (const unsigned int ind)
+{
+	std::unique_ptr<Item>& item(getItemAt(ind));
+	if (item)
+		{
+			last_move_score += item->getValue();
+			item->destroy();
+			item->destroy_callback(*this, ind);
+		}
 }
 
 unsigned int Board::getTotalSize () const
@@ -304,7 +320,7 @@ bool Board::validNeighbor (int source, int dest) const
 	std::array<unsigned, 4> counts{{0, 0, 0, 0}};
 	int dest_tmp(dest - 1);
 
-	while (dest_tmp > 0 && dest_tmp % cols != cols - 1 && item == *items[dest_tmp] && dest_tmp != source)
+	while (dest_tmp >= 0 && dest_tmp % cols != cols - 1 && item == *items[dest_tmp] && dest_tmp != source)
 		{
 			++counts[0];
 			--dest_tmp;
@@ -318,7 +334,7 @@ bool Board::validNeighbor (int source, int dest) const
 		}
 
 	dest_tmp = dest - cols;
-	while (dest_tmp > 0 && item == *items[dest_tmp] && dest_tmp != source)
+	while (dest_tmp >= 0 && item == *items[dest_tmp] && dest_tmp != source)
 		{
 			++counts[2];
 			dest_tmp -= cols;
@@ -330,6 +346,7 @@ bool Board::validNeighbor (int source, int dest) const
 			++counts[3];
 			dest_tmp += cols;
 		}
+
 	return counts[0] + counts[1] >= 2 || counts[2] + counts[3] >= 2;
 }
 

@@ -110,6 +110,8 @@ void Game::executeMovement()
 									registerMove(ind_first_item, ind_second_item);
 									registerMove(ind_second_item, ind_first_item);
 								}
+
+							board.resetLastScore();
 						}
 					first_selected = second_selected = false;
 				}
