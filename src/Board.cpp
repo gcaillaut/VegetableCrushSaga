@@ -217,6 +217,11 @@ void Board::updateLine (const unsigned int begin, const unsigned int end, const 
 							if (cpt >= 2)
 								{
 									markForRemoval(current - offset*(cpt+1), current - offset, offset);
+									if (cpt > 2)
+										{
+											item_generator->forceGenerationOf(previous_item->getName() + "Special");
+std::cout << "ifun" << std::endl;
+										}
 								}
 							cpt = 0;
 						}
@@ -226,6 +231,11 @@ void Board::updateLine (const unsigned int begin, const unsigned int end, const 
 							if (cpt >= 2 && current == end - offset)
 								{
 									markForRemoval(current - offset*(cpt), current, offset);
+									if (cpt > 2)
+										{
+											item_generator->forceGenerationOf(previous_item->getName() + "Special");
+std::cout << "ifdeux" << std::endl;
+										}
 								}
 						}
 				}
