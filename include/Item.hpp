@@ -2,6 +2,7 @@
 #define INCLUDED_ITEM_HPP
 
 #include <string>
+#include <memory>
 
 #include <SFML/Graphics/Sprite.hpp>
 
@@ -9,7 +10,9 @@ class Board;
 
 class Item : public sf::Sprite
 {
-  public:
+public:
+	static std::unique_ptr<Item> null_item;
+
 	Item(const std::string &name, const unsigned int points);
 	virtual ~Item ();
 

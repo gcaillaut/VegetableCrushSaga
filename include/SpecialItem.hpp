@@ -19,6 +19,7 @@ public:
  	virtual SpecialItem* clone();
 
 private:
+	void explode(Board & board, unsigned pos, unsigned range);
 };
 
 #endif /* INCLUDED_SPECIALITEM_HPP */

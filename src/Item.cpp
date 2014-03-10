@@ -5,6 +5,8 @@
 #include "Item.hpp"
 #include "Board.hpp"
 
+std::unique_ptr<Item> Item::null_item(nullptr);
+
 Item::Item (const std::string &name, const unsigned int points) : 
   name(name),
   value(points),

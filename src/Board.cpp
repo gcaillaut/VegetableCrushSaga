@@ -22,7 +22,7 @@ Board::Board (unsigned int x, unsigned int y, unsigned int width, unsigned int h
   combo(0),
   game(game)
 {
-	item_generator->generateSpecial(false);
+	//item_generator->generateSpecial(false);
 
   dimensions = {x, y, width*cell_size, height*cell_size};
 
@@ -99,7 +99,7 @@ const std::vector<std::unique_ptr<Item> >& Board::getItems () const
 
 std::unique_ptr<Item>& Board::getItemAt (const unsigned int ind)
 {
-  return items[ind];
+  return ind < total_size ? items[ind] : Item::null_item;
 }
 
 unsigned int Board::getTotalSize () const
@@ -258,7 +258,8 @@ void Board::markForRemoval (unsigned int begin, const unsigned int end, const un
 			last_move_score += items[begin]->getValue();
 
 			items[begin]->destroy();
-			begin += offset;
+			items[begin]->destroy_callback(*this, begin);
+ 			begin += offset;
 		}
 }
 

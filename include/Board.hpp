@@ -59,7 +59,6 @@ private:
 	sf::Rect<unsigned int> dimensions;
 
 	std::vector<std::unique_ptr<Item>> items;
-	std::vector<std::unique_ptr<Item>> last_items;
 
 	std::unique_ptr<ItemGenerator> item_generator;
 
