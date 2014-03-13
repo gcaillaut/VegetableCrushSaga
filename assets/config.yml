@@ -36,8 +36,8 @@ game:
       StrawberrySpecial: special_item2.png
       Watermelon: item6.png
       WatermelonSpecial: special_item6.png
-      item_background: crate.png
-      window_background: grass.png
+      item_background: boxbackground.png
+      window_background: background.png
     window: 
       size: 
         - 1280

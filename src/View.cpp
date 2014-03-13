@@ -18,3 +18,8 @@ void View::activate()
 {
   running = true;
 }
+
+void View::deactivate()
+{
+	running = false;
+}

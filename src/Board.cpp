@@ -26,10 +26,10 @@ Board::Board (unsigned int x, unsigned int y, unsigned int width, unsigned int h
 
   dimensions = {x, y, width*cell_size, height*cell_size};
 
-  board_shape_texture.loadFromFile("assets/crate.png");
-  board_shape_texture.setRepeated(true);
+	auto board_shape_texture = globals.getTexturesManager().getRessource("item_background");
+  board_shape_texture->setRepeated(true);
 
-  board_shape.setTexture(board_shape_texture);
+  board_shape.setTexture(*board_shape_texture);
   board_shape.setPosition(x, y);
 
 	item_generator->registerItem("Aubergine");
@@ -39,7 +39,7 @@ Board::Board (unsigned int x, unsigned int y, unsigned int width, unsigned int h
 	item_generator->registerItem("Watermelon");
 	item_generator->registerItem("Carrot");
      
-  float right_scale = (float)cell_size / (float)board_shape_texture.getSize().x;
+  float right_scale = (float)cell_size / (float)board_shape_texture->getSize().x;
   sf::IntRect texture_rect = board_shape.getTextureRect();
 
   texture_rect.width *= cols;

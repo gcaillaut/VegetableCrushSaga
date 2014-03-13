@@ -37,6 +37,7 @@ void Globals::init ()
 
 			YAML::Node paths(config["system"]["paths"]);
 			loadTextures(config["graphic"]["textures"], paths["texture_pack"].as<std::string>());
+			loadFonts(config["graphic"]["fonts"], paths["font_pack"].as<std::string>());
 
 			YAML::Node items(config["gameplay"]["items"]);
 			loadItems(items);
@@ -70,6 +71,11 @@ TexturesManager& Globals::getTexturesManager ()
   return textures_manager;
 }
 
+FontManager& Globals::getFontManager ()
+{
+	return font_manager;
+}
+
 sf::RenderWindow& Globals::getWindow ()
 {
   return *window;
@@ -85,6 +91,7 @@ void Globals::gameLoop()
 
 void Globals::shutdown()
 {
+	current_view->deactivate();
   running = false;
 }
 
@@ -137,6 +144,24 @@ bool Globals::loadTextures(YAML::Node node, const std::string & path)
   return true;
 }
 
+bool Globals::loadFonts(YAML::Node node, const std::string & path)
+{
+	if (!node)
+		return false;
+
+	for (auto n: node)
+		{
+			std::string name(n.first.as<std::string>());
+			std::string filename(n.second.as<std::string>());
+
+			font_manager.createRessource(name);
+			font_manager.getRessource(name)->loadFromFile(path + "/" + filename);
+		}
+
+  return true;
+
+}
+
 bool Globals::loadItems (YAML::Node node)
 {
 	unsigned score_basic(node["values"]["basic"].as<unsigned>());
@@ -171,8 +196,6 @@ bool Globals::loadItems (YAML::Node node)
 						});
 				}
 		}
-
-
 
 	return true;
 }

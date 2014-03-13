@@ -7,12 +7,13 @@
 #include <SFML/Graphics/RectangleShape.hpp>
 
 #include "Board.hpp"
+#include "Condition.hpp"
 
 class Game
 {
-  public:
+public:
 	Game(unsigned int x, unsigned int y, unsigned int width, unsigned int height,
-			unsigned int cell_size);
+			 unsigned int cell_size);
 	virtual ~Game();
 
 	void setClickPosition(const float x, const float y);
@@ -34,7 +35,7 @@ class Game
 
 	std::stack<sf::Vector2u> move_registered;
 
-  private:
+private:
 	Board board;
 
 	sf::Vector2u first_item;
@@ -47,6 +48,8 @@ class Game
 
 	unsigned int score;
 	unsigned int combo;
+
+	std::unique_ptr<Condition> condition;
 
 	void registerMove(unsigned int source, unsigned int target);
 };

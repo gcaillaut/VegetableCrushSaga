@@ -170,34 +170,35 @@ void GameView::showComboText()
 
 void GameView::initializeGUI()
 {
-  font.loadFromFile("assets/font.ttf");
-  popup_text.setFont(font);
+	auto font = globals.getFontManager().getRessource("wombo_font");
+
+  popup_text.setFont(*font);
   popup_text.setColor(sf::Color(0, 0, 0, 255));
   popup_text.setCharacterSize(200);
 
   popup_text.setPosition(window.getSize().x / 2, window.getSize().y / 2);
 
-  points_text.setFont(font);
+  points_text.setFont(*font);
   points_text.setColor(sf::Color::White);
   points_text.setPosition(20, 0);
   points_text.setCharacterSize(40);
   points_text.setString("Score: 0");
 
-  combo_text.setFont(font);
+  combo_text.setFont(*font);
   combo_text.setColor(sf::Color::White);
   combo_text.setPosition(20, 40);
   combo_text.setCharacterSize(40);
   combo_text.setString("Combo: x0");
+	
+	auto grass_texture = globals.getTexturesManager().getRessource("window_background");
+	grass_texture->setRepeated(true);
 
-  grass_texture.loadFromFile("assets/grass.png");
-  grass_texture.setRepeated(true);
-
-  grass_sprite.setTexture(grass_texture);
+  grass_sprite.setTexture(*grass_texture);
   grass_sprite.setPosition(0, 0);
   grass_sprite.setColor(sf::Color(180, 180, 180));
 
-  float grass_width = (float)window.getSize().x / grass_texture.getSize().x;
-  float grass_height = (float)window.getSize().y / grass_texture.getSize().y;
+  float grass_width = (float)window.getSize().x / grass_texture->getSize().x;
+  float grass_height = (float)window.getSize().y / grass_texture->getSize().y;
 
   sf::IntRect texture_rect = grass_sprite.getTextureRect();
   texture_rect.width *= grass_width;

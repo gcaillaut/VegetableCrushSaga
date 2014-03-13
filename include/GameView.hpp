@@ -30,8 +30,6 @@ class GameView: public View
 		Game *game;
 		sf::RenderWindow& window;
 
-		sf::Font font;
-
 		sf::Clock combo_clock;
 		sf::Text popup_text;
 		bool combo_mode;
@@ -40,7 +38,6 @@ class GameView: public View
 		sf::Text combo_text;
 
 		sf::Sprite grass_sprite;
-		sf::Texture grass_texture;
 
 		void initializeGUI();
 };

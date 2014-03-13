@@ -6,6 +6,7 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/Sprite.hpp>
+#include <SFML/Graphics/Font.hpp>
 
 #include <yaml-cpp/yaml.h>
 
@@ -13,9 +14,11 @@
 #include "Factory.hpp"
 #include "RessourceManager.hpp"
 
+
 class Item;
 
 typedef RessourcesManager<sf::Texture, std::string> TexturesManager;
+typedef RessourcesManager<sf::Font, std::string> FontManager;
 
 class Globals
 {
@@ -32,6 +35,7 @@ public:
 
 	const Factory<Item>& getItemFactory () const;
 	TexturesManager& getTexturesManager ();
+	FontManager& getFontManager ();
 	sf::RenderWindow& getWindow ();
 
 	void addView(std::string name, View* view);
@@ -43,6 +47,8 @@ public:
 private:
 	bool loadTextures(YAML::Node node, const std::string & path);
 	bool loadItems (YAML::Node node);
+	bool loadFonts(YAML::Node node, const std::string & path);
+
 	static Item* createBasicItem(std::string name, unsigned int value);
 	static Item* createSpecialItemBomb(std::string name, unsigned int value);
  
@@ -51,6 +57,7 @@ private:
 
 	Factory<Item> item_factory;
 	TexturesManager textures_manager;
+	FontManager font_manager;
 
 	std::map<std::string, View*> view_map;
 
