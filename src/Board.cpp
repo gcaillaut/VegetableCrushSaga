@@ -240,7 +240,15 @@ void Board::updateLine (const unsigned int begin, const unsigned int end, const 
 									markForRemoval(current - offset*(cpt+1), current - offset, offset);
 									if (cpt > 2)
 										{
-											item_generator->forceGenerationOf(previous_item->getName() + "Special");
+											if (offset == 1)
+												{
+													item_generator->forceGenerationOf(previous_item->getName() + "Horizontal");
+												}
+											else
+												{
+													item_generator->forceGenerationOf(previous_item->getName() + "Vertical");
+												}
+											//item_generator->forceGenerationOf(previous_item->getName() + "Special");
 										}
 								}
 							cpt = 0;
@@ -253,7 +261,15 @@ void Board::updateLine (const unsigned int begin, const unsigned int end, const 
 									markForRemoval(current - offset*(cpt), current, offset);
 									if (cpt > 2)
 										{
-											item_generator->forceGenerationOf(previous_item->getName() + "Special");
+											if (offset == 1)
+												{
+													item_generator->forceGenerationOf(previous_item->getName() + "Horizontal");
+												}
+											else
+												{
+													item_generator->forceGenerationOf(previous_item->getName() + "Vertical");
+												}
+											//item_generator->forceGenerationOf(previous_item->getName() + "Special");
 										}
 								}
 						}
@@ -273,8 +289,9 @@ void Board::markForRemoval (unsigned int begin, const unsigned int end, const un
 		{
 			last_move_score += items[begin]->getValue();
 
-			items[begin]->destroy();
 			items[begin]->destroy_callback(*this, begin);
+			items[begin]->destroy();
+
  			begin += offset;
 		}
 }

@@ -17,6 +17,18 @@ game:
           - MushroomSpecial
           - StrawberrySpecial
           - WatermelonSpecial
+          - CarrotHorizontal
+          - AubergineHorizontal
+          - BananaHorizontal
+          - MushroomHorizontal
+          - StrawberryHorizontal
+          - WatermelonHorizontal
+          - CarrotVertical
+          - AubergineVertical
+          - BananaVertical
+          - MushroomVertical
+          - StrawberryVertical
+          - WatermelonVertical
       values: 
         basic: 5
         special: 10
@@ -25,17 +37,29 @@ game:
       wombo_font: broken_15.ttf
     textures: 
       Aubergine: item4.png
+      AubergineHorizontal: horizontal_item4.png
       AubergineSpecial: special_item4.png
+      AubergineVertical: vertical_item4.png
       Banana: item5.png
+      BananaHorizontal: horizontal_item5.png
       BananaSpecial: special_item5.png
+      BananaVertical: vertical_item5.png
       Carrot: item1.png
+      CarrotHorizontal: horizontal_item1.png
       CarrotSpecial: special_item1.png
+      CarrotVertical: vertical_item1.png
       Mushroom: item3.png
+      MushroomHorizontal: horizontal_item3.png
       MushroomSpecial: special_item3.png
+      MushroomVertical: vertical_item3.png
       Strawberry: item2.png
+      StrawberryHorizontal: horizontal_item2.png
       StrawberrySpecial: special_item2.png
+      StrawberryVertical: vertical_item2.png
       Watermelon: item6.png
+      WatermelonHorizontal: horizontal_item6.png
       WatermelonSpecial: special_item6.png
+      WatermelonVertical: vertical_item6.png
       item_background: boxbackground.png
       window_background: background.png
     window: 

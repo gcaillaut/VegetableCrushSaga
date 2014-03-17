@@ -51,7 +51,9 @@ private:
 
 	static Item* createBasicItem(std::string name, unsigned int value);
 	static Item* createSpecialItemBomb(std::string name, unsigned int value);
- 
+	static Item* createSpecialItemHorizontal(std::string name, unsigned int value);
+	static Item* createSpecialItemVertical(std::string name, unsigned int value);
+   
 	std::unique_ptr<sf::RenderWindow> window;
 	View *current_view;
 

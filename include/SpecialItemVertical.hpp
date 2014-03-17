@@ -16,7 +16,7 @@ public:
  	virtual SpecialItemVertical* clone();
 
 private:
-	void explode(Board & board, unsigned pos);
+	void explode(Board & board, unsigned pos, int offset);
 };
 
 #endif /* INCLUDED_SPECIALITEMVERTICAL_H */

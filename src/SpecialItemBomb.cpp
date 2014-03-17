@@ -16,7 +16,8 @@ void SpecialItemBomb::create_callback (Board& board, unsigned int pos)
 
 void SpecialItemBomb::destroy_callback (Board & board, unsigned int pos)
 {
-	explode(board, pos, 3);
+	if (!destroyed)
+		explode(board, pos, 3);
 }
 
 SpecialItemBomb *SpecialItemBomb::clone()

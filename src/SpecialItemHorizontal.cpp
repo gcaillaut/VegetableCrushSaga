@@ -16,7 +16,11 @@ void SpecialItemHorizontal::create_callback (Board& board, unsigned int pos)
 
 void SpecialItemHorizontal::destroy_callback (Board & board, unsigned int pos)
 {
-	explode(board, pos);
+	if (!destroyed)
+		{
+			explode(board, pos - 1, -1);
+			explode(board, pos - 1, 1);
+ 		}
 }
 
 SpecialItemHorizontal *SpecialItemHorizontal::clone()
@@ -26,17 +30,13 @@ SpecialItemHorizontal *SpecialItemHorizontal::clone()
 
   return item;
 }
-
-void SpecialItemHorizontal::explode (Board & board, unsigned pos)
+#include <iostream>
+void SpecialItemHorizontal::explode (Board & board, unsigned pos, int offset)
 {
-	if (pos % board.getColsCount() < board.getColsCount() - 1)
+	if (pos % board.getColsCount() < board.getColsCount() - 1 
+			&& pos % board.getColsCount() > 0)
 		{
-			explode(board, pos + 1);
-		}
-
-	if (pos % board.getColsCount() > 0)
-		{
-			explode(board, pos - 1);
+			explode(board, pos + offset, offset);
 		}
 
 	board.removeItemAt(pos);

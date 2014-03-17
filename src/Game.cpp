@@ -20,7 +20,7 @@ Game::Game(unsigned int x, unsigned int y, unsigned int width, unsigned int heig
   active_input(true),
   score(0),
   combo(0),
-	condition(new CounterCondition(5))
+	condition(new CounterCondition(20))
 {
 }
 

@@ -6,7 +6,10 @@
 UniformItemGenerator::UniformItemGenerator () : 
 	ItemGenerator(),
   generator(std::chrono::system_clock::now().time_since_epoch().count())
-{}
+{
+	forceGenerationOf("CarrotVertical");
+	forceGenerationOf("Carrot");
+ }
 
 UniformItemGenerator::~UniformItemGenerator ()
 {}

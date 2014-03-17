@@ -16,7 +16,12 @@ void SpecialItemVertical::create_callback (Board& board, unsigned int pos)
 
 void SpecialItemVertical::destroy_callback (Board & board, unsigned int pos)
 {
-	explode(board, pos);
+	if (!destroyed)
+		{
+			int width(board.getColsCount());
+			explode(board, pos - width, -width);
+			explode(board, pos + width, width);
+ 		}
 }
 
 SpecialItemVertical *SpecialItemVertical::clone()
@@ -27,16 +32,12 @@ SpecialItemVertical *SpecialItemVertical::clone()
   return item;
 }
 
-void SpecialItemVertical::explode (Board & board, unsigned pos)
+void SpecialItemVertical::explode (Board & board, unsigned pos, int offset)
 {
-	if (pos < board.getTotalSize())
+	if (pos < board.getTotalSize()
+			&& pos / board.getColsCount() > 0)
 		{
-			explode(board, pos + board.getColsCount());
-		}
-
-	if (pos / board.getColsCount() > 0)
-		{
-			explode(board, pos - board.getColsCount());
+			explode(board, pos + offset, offset);
 		}
 
 	board.removeItemAt(pos);

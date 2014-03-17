@@ -8,7 +8,9 @@
 #include "Factory.hpp"
 #include "BasicItem.hpp"
 #include "SpecialItemBomb.hpp"
-
+#include "SpecialItemVertical.hpp"
+#include "SpecialItemHorizontal.hpp"
+  
 Globals globals;
 
 
@@ -191,9 +193,26 @@ bool Globals::loadItems (YAML::Node node)
 				}
 			else
 				{
-					item_factory.registerObject(name, [name,score_special]() {
-							return createSpecialItemBomb(name, score_special);
-						});
+					if (name.find("Special") != std::string::npos)
+						{
+							item_factory.registerObject(name, [name,score_special]() {
+									return createSpecialItemBomb(name, score_special);
+								});
+						}
+
+					else if (name.find("Horizontal") != std::string::npos)
+						{
+							item_factory.registerObject(name, [name,score_special]() {
+									return createSpecialItemHorizontal(name, score_special);
+								});
+						}
+
+					if (name.find("Vertical") != std::string::npos)
+						{
+							item_factory.registerObject(name, [name,score_special]() {
+									return createSpecialItemVertical(name, score_special);
+								});
+						}
 				}
 		}
 
@@ -212,6 +231,24 @@ Item* Globals::createSpecialItemBomb(std::string name, unsigned int value)
 	// 7 est la taille de "Special"
 	std::string basic_name(name.substr(0, name.size() - 7));
 	Item* item(new SpecialItemBomb(basic_name, value));
+	item->setTexture(*globals.getTexturesManager().getRessource(name));
+	return item;
+}
+
+Item* Globals::createSpecialItemHorizontal(std::string name, unsigned int value)
+{
+	// 10 est la taille de "Horizontal"
+	std::string basic_name(name.substr(0, name.size() - 10));
+	Item* item(new SpecialItemHorizontal(basic_name, value));
+	item->setTexture(*globals.getTexturesManager().getRessource(name));
+	return item;
+}
+
+Item* Globals::createSpecialItemVertical(std::string name, unsigned int value)
+{
+	// 8 est la taille de "Vertical"
+	std::string basic_name(name.substr(0, name.size() - 8));
+	Item* item(new SpecialItemVertical(basic_name, value));
 	item->setTexture(*globals.getTexturesManager().getRessource(name));
 	return item;
 }
