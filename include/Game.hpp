@@ -31,6 +31,9 @@ public:
 	unsigned int getScore() const;
 	unsigned int getCombo() const;
 
+	Condition& getCondition ();
+	const Condition& getCondition () const;
+ 
 	bool isActive ();
 
 	std::stack<sf::Vector2u> move_registered;

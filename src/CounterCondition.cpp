@@ -1,5 +1,5 @@
 #include "CounterCondition.hpp"
-#include <iostream>
+#include <string>
 
 CounterCondition::CounterCondition(unsigned int value):
 	Condition(),
@@ -15,8 +15,9 @@ void CounterCondition::step()
 		{
 			state = true;	
 		}
-
-	std::cout << "Counter: " << counter << std::endl;
 }
 
-
+CounterCondition::operator std::string () const
+{
+	return std::to_string(counter);
+}

@@ -43,7 +43,8 @@ void GameView::draw()
 
   window.draw(points_text);
   window.draw(combo_text);
-
+  window.draw(counter_text);
+ 
   showComboText();
 }
 
@@ -115,9 +116,10 @@ void GameView::loop()
 
 			game->updateGame();
 
-			points_text.setString("Points: " + std::to_string(game->getScore()));
-			combo_text.setString("Combo: x" + std::to_string(game->getCombo()));
-
+			points_text.setString("Points : " + std::to_string(game->getScore()));
+			combo_text.setString("Combo : x" + std::to_string(game->getCombo()));
+			counter_text.setString("Compteur : " + static_cast<std::string>(game->getCondition()));
+ 
 			clear();
 			draw();
 			display();
@@ -182,13 +184,19 @@ void GameView::initializeGUI()
   points_text.setColor(sf::Color::White);
   points_text.setPosition(20, 0);
   points_text.setCharacterSize(40);
-  points_text.setString("Score: 0");
+  points_text.setString("Score : 0");
 
   combo_text.setFont(*font);
   combo_text.setColor(sf::Color::White);
   combo_text.setPosition(20, 40);
   combo_text.setCharacterSize(40);
-  combo_text.setString("Combo: x0");
+  combo_text.setString("Combo : x0");
+
+  counter_text.setFont(*font);
+  counter_text.setColor(sf::Color::White);
+  counter_text.setPosition(20, 80);
+  counter_text.setCharacterSize(40);
+  counter_text.setString("Compteur : " + static_cast<std::string>(game->getCondition()));
 	
 	auto grass_texture = globals.getTexturesManager().getRessource("window_background");
 	grass_texture->setRepeated(true);

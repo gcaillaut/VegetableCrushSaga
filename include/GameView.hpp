@@ -25,7 +25,7 @@ class GameView: public View
 		virtual void loop();
 
 		void showComboText();
-
+ 
 	private:
 		Game *game;
 		sf::RenderWindow& window;
@@ -36,7 +36,8 @@ class GameView: public View
 
 		sf::Text points_text;
 		sf::Text combo_text;
-
+		sf::Text counter_text;
+ 
 		sf::Sprite grass_sprite;
 
 		void initializeGUI();

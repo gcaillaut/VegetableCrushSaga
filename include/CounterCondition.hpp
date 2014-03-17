@@ -10,6 +10,7 @@ public:
 	virtual ~CounterCondition ();
 
 	virtual void step();
+	virtual operator std::string() const;
 
 private:
 	unsigned int counter;

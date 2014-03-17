@@ -185,6 +185,16 @@ unsigned int Game::getCombo() const
   return combo;
 }
 
+Condition& Game::getCondition ()
+{
+	return *condition;
+}
+
+const Condition& Game::getCondition () const
+{
+	return *condition;
+}
+
 bool Game::isActive ()
 {
   return active_input;
