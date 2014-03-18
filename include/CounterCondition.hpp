@@ -10,6 +10,8 @@ public:
 	virtual ~CounterCondition ();
 
 	virtual void step();
+	virtual void reset(int value);
+
 	virtual operator std::string() const;
 
 private:

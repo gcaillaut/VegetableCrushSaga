@@ -34,7 +34,7 @@ void Globals::init ()
 			sf::Vector2u window_size(config["graphic"]["window"]["size"][0].as<unsigned>(),
 															 config["graphic"]["window"]["size"][1].as<unsigned>());
 
-			window.reset(new sf::RenderWindow(sf::VideoMode(window_size.x, window_size.y), "Test", sf::Style::Default & ~sf::Style::Resize));
+			window.reset(new sf::RenderWindow(sf::VideoMode(window_size.x, window_size.y), "Vegetable Crush Saga", sf::Style::Default & ~sf::Style::Resize));
 			window->setFramerateLimit(60);
 
 			YAML::Node paths(config["system"]["paths"]);

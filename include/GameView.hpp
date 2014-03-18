@@ -25,6 +25,7 @@ class GameView: public View
 		virtual void loop();
 
 		void showComboText();
+		void showLevelupText();
  
 	private:
 		Game *game;
@@ -34,10 +35,15 @@ class GameView: public View
 		sf::Text popup_text;
 		bool combo_mode;
 
+		sf::Clock levelup_clock;
+		sf::Text levelup_text;
+		bool levelup_mode;
+
 		sf::Text points_text;
 		sf::Text combo_text;
 		sf::Text counter_text;
- 
+		sf::Text level_text;
+
 		sf::Sprite grass_sprite;
 
 		void initializeGUI();

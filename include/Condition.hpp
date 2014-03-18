@@ -10,6 +10,8 @@ public:
 	virtual ~Condition ();
 
 	virtual void step() = 0;
+	virtual void reset(int value) = 0;
+
 	operator bool() const;
 	virtual operator std::string() const = 0;
  	

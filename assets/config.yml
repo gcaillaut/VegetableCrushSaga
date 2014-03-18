@@ -30,8 +30,8 @@ game:
           - StrawberryVertical
           - WatermelonVertical
       values: 
-        basic: 5
-        special: 10
+        basic: 10
+        special: 20
   graphic: 
     fonts: 
       wombo_font: broken_15.ttf

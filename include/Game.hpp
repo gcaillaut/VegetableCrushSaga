@@ -30,11 +30,14 @@ public:
 	Board& getBoard ();
 	unsigned int getScore() const;
 	unsigned int getCombo() const;
+	unsigned int getGoalScore() const;
+	unsigned int getLevel() const;
 
 	Condition& getCondition ();
 	const Condition& getCondition () const;
  
 	bool isActive ();
+	bool isGameOver();
 
 	std::stack<sf::Vector2u> move_registered;
 
@@ -51,6 +54,11 @@ private:
 
 	unsigned int score;
 	unsigned int combo;
+
+	unsigned int level;
+	unsigned int score_goal;
+
+	bool gameover;
 
 	std::unique_ptr<Condition> condition;
 
