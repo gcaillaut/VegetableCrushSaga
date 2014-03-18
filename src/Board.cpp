@@ -113,8 +113,9 @@ void Board::removeItemAt (const unsigned int ind)
 	if (item)
 		{
 			last_move_score += item->getValue();
-			item->destroy();
+			
 			item->destroy_callback(*this, ind);
+			item->destroy();
 		}
 }
 

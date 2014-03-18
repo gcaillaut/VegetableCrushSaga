@@ -38,7 +38,6 @@ void SpecialItemVertical::explode (Board & board, unsigned pos, int offset)
 			&& pos / board.getColsCount() > 0)
 		{
 			explode(board, pos + offset, offset);
+			board.removeItemAt(pos);
 		}
-
-	board.removeItemAt(pos);
 }

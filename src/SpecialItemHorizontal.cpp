@@ -18,6 +18,7 @@ void SpecialItemHorizontal::destroy_callback (Board & board, unsigned int pos)
 {
 	if (!destroyed)
 		{
+			destroy();
 			explode(board, pos - 1, -1);
 			explode(board, pos - 1, 1);
  		}
@@ -37,7 +38,6 @@ void SpecialItemHorizontal::explode (Board & board, unsigned pos, int offset)
 			&& pos % board.getColsCount() > 0)
 		{
 			explode(board, pos + offset, offset);
+			board.removeItemAt(pos);
 		}
-
-	board.removeItemAt(pos);
 }
