@@ -16,7 +16,6 @@ MenuView::MenuView(Controller *controller, sf::RenderWindow &window):
   rectangle.setFillColor(sf::Color(0, 0, 0, 127));
 
   buttons.push_back(sfg::Button::Create("Retour"));
-//  buttons.push_back(sfg::Button::Create(L"Désactiver animations"));
   buttons.push_back(sfg::Button::Create("Quitter"));
 
   box = sfg::Box::Create(sfg::Box::Orientation::VERTICAL, 50.f);
@@ -44,12 +43,6 @@ MenuView::MenuView(Controller *controller, sf::RenderWindow &window):
 	static_cast<MenuController*>(controller)->onRetour();
 	running = false;
   });
-
-  /*
-  buttons[1]->GetSignal(sfg::Button::OnLeftClick).Connect([this, &controller](){
-	static_cast<MenuController*>(controller)->onToggleAnimation();
-  });
-  */
 
   buttons[1]->GetSignal(sfg::Button::OnLeftClick).Connect([this, &controller](){
 	static_cast<MenuController*>(controller)->onQuitter();

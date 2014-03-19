@@ -5,6 +5,7 @@
 #include <stack>
 
 #include <SFML/Graphics/RectangleShape.hpp>
+#include <SFML/System/Clock.hpp>
 
 #include "Board.hpp"
 #include "Condition.hpp"
@@ -58,10 +59,16 @@ private:
 	unsigned int level;
 	unsigned int score_goal;
 
+	float goal_coef;
+	unsigned int tries_added;
+
+	bool near_gameover;
 	bool gameover;
 
 	std::unique_ptr<Condition> condition;
+	sf::Clock endClock;
 
+	void initializeGame();
 	void registerMove(unsigned int source, unsigned int target);
 };
 

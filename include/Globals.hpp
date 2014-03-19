@@ -44,6 +44,12 @@ public:
 	void captureScreen();
 	const sf::Sprite& getLastCapture() const;
 
+	bool isRetrying();
+	void setRetry(bool value);
+	void activate();
+
+	void clearViews();
+
 private:
 	bool loadTextures(YAML::Node node, const std::string & path);
 	bool loadItems (YAML::Node node);
@@ -64,6 +70,7 @@ private:
 	std::map<std::string, View*> view_map;
 
 	bool running;
+	bool retry;
 
 	sf::Texture gameTexture;
 	sf::Sprite gameSprite;

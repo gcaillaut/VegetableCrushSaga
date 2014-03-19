@@ -63,7 +63,7 @@ void StartView::loop()
   {
 	sendEvents();
 
-	if (start_clock.getElapsedTime().asSeconds() > 2)
+	if (start_clock.getElapsedTime().asMilliseconds() > 1500)
 	{
 	  globals.setCurrentView("Game");
 	  running = false;

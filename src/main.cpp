@@ -8,6 +8,7 @@
 #include "EndView.hpp"
 #include "GameController.hpp"
 #include "MenuController.hpp"
+#include "EndController.hpp"
 
 #include "Game.hpp"
 
@@ -17,22 +18,32 @@ int main ()
 {
   globals.init();
 
-  Game game(140, 124, 20, 10, 50);
-  GameController gameController(&game);
-  GameView gameView(&gameController, &game, globals.getWindow());
+  while (globals.isRetrying())
+  {
+	globals.setRetry(false);
+	globals.activate();
 
-  MenuController menuController(&game);
-  MenuView menuView(&menuController, globals.getWindow());
-  EndView endView(&gameController, globals.getWindow());
-  StartView startView(&gameController, globals.getWindow());
+	Game game(140, 124, 20, 10, 50);
 
-  globals.addView("Game", &gameView);
-  globals.addView("Menu", &menuView);
-  globals.addView("End", &endView);
-  globals.addView("Start", &startView);
+	GameController gameController(&game);
+	MenuController menuController(&game);
+	EndController endController;
 
-  globals.setCurrentView("Start");
-  globals.gameLoop();
+	GameView gameView(&gameController, &game, globals.getWindow());
+	MenuView menuView(&menuController, globals.getWindow());
+	EndView endView(&endController, globals.getWindow());
+	StartView startView(&gameController, globals.getWindow());
+
+	globals.addView("Game", &gameView);
+	globals.addView("Menu", &menuView);
+	globals.addView("End", &endView);
+	globals.addView("Start", &startView);
+
+	globals.setCurrentView("Start");
+	globals.gameLoop();
+
+	globals.clearViews();
+  }
 
   return 0;
 }

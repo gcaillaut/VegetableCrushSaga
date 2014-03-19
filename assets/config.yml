@@ -32,6 +32,11 @@ game:
       values: 
         basic: 10
         special: 20
+    parameters:
+      base_goal: 1000
+      goal_coef: 2
+      base_tries: 10
+      tries_added: 10
   graphic: 
     fonts: 
       wombo_font: broken_15.ttf

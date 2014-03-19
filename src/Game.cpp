@@ -21,14 +21,17 @@ Game::Game(unsigned int x, unsigned int y, unsigned int width, unsigned int heig
   score(0),
   combo(0),
   level(1),
-  score_goal(2000),
+  score_goal(0),
+  near_gameover(false),
   gameover(false),
-  condition(new CounterCondition(10))
+  condition(nullptr)
 {
+  this->initializeGame();
 }
 
 Game::~Game()
-{}
+{
+}
 
 void Game::setClickPosition(const float x, const float y)
 {
@@ -138,15 +141,12 @@ void Game::updateGame()
 
   if (score > score_goal)
   {
-	score_goal *= 2;
+	score_goal *= goal_coef;
 	level += 1;
 
-	condition->reset(10 * level);
-  }
+	int tries = std::atoi(static_cast<std::string>(*condition).c_str());
 
-  if (*condition && move_registered.empty() && active_input)
-  {
-	gameover = true;
+	condition->reset(tries + tries_added * level);
   }
 
   if (!move_registered.empty())
@@ -163,6 +163,18 @@ void Game::updateGame()
   }
 
   board.update();
+
+  if (*condition && !near_gameover)
+  {
+	near_gameover = true;
+	endClock.restart();
+  }
+
+  if (near_gameover && endClock.getElapsedTime().asSeconds() > 1)
+  {
+	if (!board.areItemsMoving() && board.isStable())
+	  gameover = true;
+  }
 }
 
 void Game::addPoints(unsigned int value)
@@ -223,4 +235,25 @@ bool Game::isActive ()
 bool Game::isGameOver()
 {
   return gameover;
+}
+
+void Game::initializeGame()
+{
+  try
+  {
+	YAML::Node config(YAML::LoadFile("assets/config.yml"));
+	config = config["game"]["gameplay"]["parameters"];
+
+	score_goal = config["base_goal"].as<unsigned int>();
+	goal_coef = config["goal_coef"].as<float>();
+	tries_added = config["tries_added"].as<unsigned int>();
+
+	condition.reset(new CounterCondition(config["base_tries"].as<unsigned int>()));
+  }
+  catch (YAML::ParserException e)
+  {
+	std::cerr << "Le fichier de config n'est pas aux normes !" << std::endl;
+	std::cerr << e.what() << std::endl;
+	exit(EXIT_FAILURE);
+  }
 }
