@@ -20,12 +20,18 @@ class Item;
 typedef ResourceManager<sf::Texture, std::string> TextureManager;
 typedef ResourceManager<sf::Font, std::string> FontManager;
 
+///
+/// \brief Classe Globals
+///
 class Globals
 {
 public:
 	Globals ();
 	~Globals ();
 
+	///
+	/// \brief Initialise le jeu à l'aide du fichier de configuration
+	///
 	void init ();
 	void gameLoop();
 	void shutdown();
