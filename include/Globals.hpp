@@ -10,15 +10,15 @@
 
 #include <yaml-cpp/yaml.h>
 
-#include "View.hpp"
-#include "Factory.hpp"
-#include "RessourceManager.hpp"
+#include "views/View.hpp"
+#include "utils/Factory.hpp"
+#include "utils/ResourceManager.hpp"
 
 
 class Item;
 
-typedef RessourcesManager<sf::Texture, std::string> TexturesManager;
-typedef RessourcesManager<sf::Font, std::string> FontManager;
+typedef ResourceManager<sf::Texture, std::string> TextureManager;
+typedef ResourceManager<sf::Font, std::string> FontManager;
 
 class Globals
 {
@@ -34,7 +34,7 @@ public:
 	void setCurrentView (std::string name);
 
 	const Factory<Item>& getItemFactory () const;
-	TexturesManager& getTexturesManager ();
+	TextureManager& getTextureManager ();
 	FontManager& getFontManager ();
 	sf::RenderWindow& getWindow ();
 
@@ -64,7 +64,7 @@ private:
 	View *current_view;
 
 	Factory<Item> item_factory;
-	TexturesManager textures_manager;
+	TextureManager texture_manager;
 	FontManager font_manager;
 
 	std::map<std::string, View*> view_map;

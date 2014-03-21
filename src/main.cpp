@@ -1,18 +1,15 @@
-#include <iostream>
-
 #include "Globals.hpp"
 
-#include "GameView.hpp"
-#include "MenuView.hpp"
-#include "StartView.hpp"
-#include "EndView.hpp"
-#include "GameController.hpp"
-#include "MenuController.hpp"
-#include "EndController.hpp"
+#include "views/GameView.hpp"
+#include "views/MenuView.hpp"
+#include "views/StartView.hpp"
+#include "views/EndView.hpp"
 
-#include "Game.hpp"
+#include "controllers/GameController.hpp"
+#include "controllers/MenuController.hpp"
+#include "controllers/EndController.hpp"
 
-#include <SFML/Graphics.hpp>
+#include "models/Game.hpp"
 
 int main ()
 {

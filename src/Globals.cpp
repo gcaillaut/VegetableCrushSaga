@@ -1,18 +1,15 @@
-#include <iostream>
-
 #include <SFML/Graphics/Texture.hpp>
 
 #include "Globals.hpp"
 
-#include "Item.hpp"
-#include "Factory.hpp"
-#include "BasicItem.hpp"
-#include "SpecialItemBomb.hpp"
-#include "SpecialItemVertical.hpp"
-#include "SpecialItemHorizontal.hpp"
+#include "utils/Factory.hpp"
+
+#include "models/items/BasicItem.hpp"
+#include "models/items/SpecialItemBomb.hpp"
+#include "models/items/SpecialItemVertical.hpp"
+#include "models/items/SpecialItemHorizontal.hpp"
 
 Globals globals;
-
 
 Globals::Globals () :
   window(nullptr),
@@ -69,9 +66,9 @@ const Factory<Item>& Globals::getItemFactory () const
   return item_factory;
 }
 
-TexturesManager& Globals::getTexturesManager ()
+TextureManager& Globals::getTextureManager ()
 {
-  return textures_manager;
+  return texture_manager;
 }
 
 FontManager& Globals::getFontManager ()
@@ -160,8 +157,8 @@ bool Globals::loadTextures(YAML::Node node, const std::string & path)
 	std::string name(n.first.as<std::string>());
 	std::string filename(n.second.as<std::string>());
 
-	textures_manager.createRessource(name);
-	textures_manager.getRessource(name)->loadFromFile(path + "/" + filename);
+	texture_manager.createResource(name);
+	texture_manager.getResource(name)->loadFromFile(path + "/" + filename);
   }
 
   return true;
@@ -177,8 +174,8 @@ bool Globals::loadFonts(YAML::Node node, const std::string & path)
 	std::string name(n.first.as<std::string>());
 	std::string filename(n.second.as<std::string>());
 
-	font_manager.createRessource(name);
-	font_manager.getRessource(name)->loadFromFile(path + "/" + filename);
+	font_manager.createResource(name);
+	font_manager.getResource(name)->loadFromFile(path + "/" + filename);
   }
 
   return true;
@@ -193,7 +190,7 @@ bool Globals::loadItems (YAML::Node node)
   for (size_t i(0) ; i < node["names"]["basic"].size() ; ++i)
   {
 	std::string name(node["names"]["basic"][i].as<std::string>());
-	if (!textures_manager.getRessource(name))
+	if (!texture_manager.getResource(name))
 	{
 	  std::cout << "Attention, la texture de \"" << name << "\" n'existe pas !" << std::endl;
 	}
@@ -208,7 +205,7 @@ bool Globals::loadItems (YAML::Node node)
   for (size_t i(0) ; i < node["names"]["special"].size() ; ++i)
   {
 	std::string name(node["names"]["special"][i].as<std::string>());
-	if (!textures_manager.getRessource(name))
+	if (!texture_manager.getResource(name))
 	{
 	  std::cout << "Attention, la texture de \"" << name << "\" n'existe pas !" << std::endl;
 	}
@@ -243,7 +240,7 @@ bool Globals::loadItems (YAML::Node node)
 Item* Globals::createBasicItem(std::string name, unsigned int value)
 {
   Item* item(new BasicItem(name, value));
-  item->setTexture(*globals.getTexturesManager().getRessource(name));
+  item->setTexture(*globals.getTextureManager().getResource(name));
   return item;
 }
 
@@ -252,7 +249,7 @@ Item* Globals::createSpecialItemBomb(std::string name, unsigned int value)
   // 7 est la taille de "Special"
   std::string basic_name(name.substr(0, name.size() - 7));
   Item* item(new SpecialItemBomb(basic_name, value));
-  item->setTexture(*globals.getTexturesManager().getRessource(name));
+  item->setTexture(*globals.getTextureManager().getResource(name));
   return item;
 }
 
@@ -261,7 +258,7 @@ Item* Globals::createSpecialItemHorizontal(std::string name, unsigned int value)
   // 10 est la taille de "Horizontal"
   std::string basic_name(name.substr(0, name.size() - 10));
   Item* item(new SpecialItemHorizontal(basic_name, value));
-  item->setTexture(*globals.getTexturesManager().getRessource(name));
+  item->setTexture(*globals.getTextureManager().getResource(name));
   return item;
 }
 
@@ -270,6 +267,6 @@ Item* Globals::createSpecialItemVertical(std::string name, unsigned int value)
   // 8 est la taille de "Vertical"
   std::string basic_name(name.substr(0, name.size() - 8));
   Item* item(new SpecialItemVertical(basic_name, value));
-  item->setTexture(*globals.getTexturesManager().getRessource(name));
+  item->setTexture(*globals.getTextureManager().getResource(name));
   return item;
 }
