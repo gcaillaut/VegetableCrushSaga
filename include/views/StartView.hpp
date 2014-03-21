@@ -10,6 +10,10 @@
 
 class Game;
 
+///
+/// \brief Vue de démarrage du jeu
+/// \see View
+///
 class StartView: public View
 {
   public:

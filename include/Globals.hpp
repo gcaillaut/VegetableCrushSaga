@@ -21,7 +21,7 @@ typedef ResourceManager<sf::Texture, std::string> TextureManager;
 typedef ResourceManager<sf::Font, std::string> FontManager;
 
 ///
-/// \brief Classe Globals
+/// \brief Fonctions et objets globaux
 ///
 class Globals
 {
@@ -33,32 +33,85 @@ public:
 	/// \brief Initialise le jeu à l'aide du fichier de configuration
 	///
 	void init ();
+
+	///
+	/// \brief Boucle de jeu principale
+	///
 	void gameLoop();
+
+	///
+	/// \brief Arrête la boucle de jeu
+	///
 	void shutdown();
 
-	View* getCurrentView () const;
+	///
+	/// \brief Ajoute la vue dans la map
+	/// \param name	Nom de la vue
+	/// \param view	Vue
+	///
+	void addView(std::string name, View* view);
+
+	///
+	/// \brief Définit la vue actuelle
+	/// \param name	Nom de la vue
+	///
 	void setCurrentView (std::string name);
 
-	const Factory<Item>& getItemFactory () const;
+	///
+	/// \brief Supprime toutes les vues
+	///
+	void clearViews();
+
+	///
+	/// \brief Enregistre une capture d'écran
+	///
+	void captureScreen();
+
+	///
+	/// \brief Définit si le jeu recommencera une fois terminé
+	/// \param value Oui/Non
+	///
+	void setRetry(bool value);
+
+	///
+	/// \brief Réactive la boucle de jeu
+	///
+	void activate();
+
 	TextureManager& getTextureManager ();
 	FontManager& getFontManager ();
 	sf::RenderWindow& getWindow ();
 
-	void addView(std::string name, View* view);
 	View* getView(std::string name);
+	View* getCurrentView () const;
 
-	void captureScreen();
+	const Factory<Item>& getItemFactory () const;
 	const sf::Sprite& getLastCapture() const;
 
 	bool isRetrying();
-	void setRetry(bool value);
-	void activate();
-
-	void clearViews();
 
 private:
+	///
+	/// \brief Charge les textures du jeu
+	/// \param node	Node YAML
+	/// \param path	Chemin du pack de textures
+	/// \return	Oui si tout s'est bien passé. Non sinon.
+	///
 	bool loadTextures(YAML::Node node, const std::string & path);
+
+	///
+	/// \brief Charge les items
+	/// \param node Node YAML
+	/// \return Oui si tout s'est bien passé. Non sinon.
+	///
 	bool loadItems (YAML::Node node);
+
+	///
+	/// \brief Charge les polices de caractères
+	/// \param node Node YAML
+	/// \param path Chemin du pack de polices
+	/// \return Oui si tout s'est bien passé. Non sinon.
+	///
 	bool loadFonts(YAML::Node node, const std::string & path);
 
 	static Item* createBasicItem(std::string name, unsigned int value);

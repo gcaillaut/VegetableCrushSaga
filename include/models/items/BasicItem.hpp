@@ -5,6 +5,10 @@
 
 class Board;
 
+///
+/// \brief Item basique
+/// \see Item
+///
 class BasicItem : public Item
 {
   public:
@@ -13,10 +17,6 @@ class BasicItem : public Item
 
 	virtual void create_callback(Board & board, unsigned int pos);
 	virtual void destroy_callback(Board & board, unsigned int pos);
-	virtual BasicItem* clone();
-
-  private:
-
 };
 
 #endif /* INCLUDED_BASICITEM_HPP */

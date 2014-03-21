@@ -5,6 +5,10 @@
 
 class Game;
 
+///
+/// \brief Contrôleur du menu de pause
+/// \see Controller
+///
 class MenuController: public Controller
 {
   public:
@@ -16,8 +20,14 @@ class MenuController: public Controller
 	virtual void onLostFocus ();
 	virtual void onGainedFocus ();
 
+	///
+	/// \brief Lorsqu'on choisit de retourner au jeu
+	///
 	void onRetour();
-	void onToggleAnimation();
+
+	///
+	/// \brief Lorsqu'on choisit de quitter le jeu
+	///
 	void onQuitter();
 
   private:

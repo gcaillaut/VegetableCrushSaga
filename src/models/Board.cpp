@@ -73,7 +73,7 @@ Board::Board (unsigned int x, unsigned int y, unsigned int width, unsigned int h
   last_move_score = combo = 0;
   std::for_each(items.begin(), items.end(), [](std::unique_ptr<Item>& item)
   {
-	item->swapped = false;
+	item->setSwap(false);
   });
 
   item_generator->generateSpecial(true);
@@ -161,8 +161,8 @@ unsigned Board::posToInd (const unsigned x, const unsigned y) const
 void Board::swapItems (const unsigned int src, const unsigned int dest)
 {
   std::swap(items[src], items[dest]);
-  items[src]->swapped = true;
-  items[dest]->swapped = true;
+  items[src]->setSwap(true);
+  items[dest]->setSwap(true);
 }
 
 void Board::changeItem(unsigned int x, unsigned int y)
@@ -238,7 +238,11 @@ void Board::updateLine (const unsigned int begin, const unsigned int end, const 
 		if (cpt >= 2)
 		{
 		  markForRemoval(current - offset*(cpt+1), current - offset, offset);
-		  if (cpt > 2)
+		  if (cpt >3)
+		  {
+			item_generator->forceGenerationOf(previous_item->getName() + "Special");
+		  }
+		  else if (cpt > 2)
 		  {
 			if (offset == 1)
 			{
@@ -248,7 +252,6 @@ void Board::updateLine (const unsigned int begin, const unsigned int end, const 
 			{
 			  item_generator->forceGenerationOf(previous_item->getName() + "Vertical");
 			}
-			//item_generator->forceGenerationOf(previous_item->getName() + "Special");
 		  }
 		}
 		cpt = 0;
@@ -259,7 +262,11 @@ void Board::updateLine (const unsigned int begin, const unsigned int end, const 
 		if (cpt >= 2 && current == end - offset)
 		{
 		  markForRemoval(current - offset*(cpt), current, offset);
-		  if (cpt > 2)
+		  if (cpt >3)
+		  {
+			item_generator->forceGenerationOf(previous_item->getName() + "Special");
+		  }
+		  else if (cpt > 2)
 		  {
 			if (offset == 1)
 			{
@@ -269,7 +276,6 @@ void Board::updateLine (const unsigned int begin, const unsigned int end, const 
 			{
 			  item_generator->forceGenerationOf(previous_item->getName() + "Vertical");
 			}
-			//item_generator->forceGenerationOf(previous_item->getName() + "Special");
 		  }
 		}
 	  }
@@ -337,12 +343,14 @@ bool Board::validNeighbor (int source, int dest) const
   std::array<unsigned, 4> counts{{0, 0, 0, 0}};
   int dest_tmp(dest - 1);
 
+  // Compte le nombre d'éléments équivalents vers la gauche
   while (dest_tmp >= 0 && dest_tmp % cols != cols - 1 && item == *items[dest_tmp] && dest_tmp != source)
   {
 	++counts[0];
 	--dest_tmp;
   }
 
+  // Compte le nombre d'éléments équivalents vers la droite
   dest_tmp = dest + 1;
   while (dest_tmp % cols != 0 && item == *items[dest_tmp] && dest_tmp != source)
   {
@@ -350,6 +358,7 @@ bool Board::validNeighbor (int source, int dest) const
 	++dest_tmp;
   }
 
+  // Compte le nombre d'éléments équivalents vers le haut
   dest_tmp = dest - cols;
   while (dest_tmp >= 0 && item == *items[dest_tmp] && dest_tmp != source)
   {
@@ -357,6 +366,7 @@ bool Board::validNeighbor (int source, int dest) const
 	dest_tmp -= cols;
   }
 
+  // Compte le nombre d'éléments équivalents vers le bas
   dest_tmp = dest + cols;
   while (dest_tmp < (int)total_size && item == *items[dest_tmp] && dest_tmp != source)
   {
@@ -364,6 +374,7 @@ bool Board::validNeighbor (int source, int dest) const
 	dest_tmp += cols;
   }
 
+  // Retourne si la somme des horizontaux ou des verticaux est supérieure à 2
   return counts[0] + counts[1] >= 2 || counts[2] + counts[3] >= 2;
 }
 
@@ -371,16 +382,12 @@ void Board::applyGravity (const unsigned int col)
 {
   for (int i(col + cols * (rows-1)) ; i >= 0; i -= cols)
   {
-	/*
-			 * Si l'item i est supprimé, on doit le remplacer par l'item au dessus le plus proche
-			 */
+	// Si l'item i est supprimé, on doit le remplacer par l'item au dessus le plus proche
 	if (items[i]->isDestroyed())
 	{
 	  int next(i - cols);
 
-	  /*
-					 * si next < 0, alors il n'y a pas d'item au dessus de i
-					 */
+	  // si next < 0, alors il n'y a pas d'item au dessus de i
 	  while (next >= 0 && items[next]->isDestroyed())
 	  {
 		next -= cols;

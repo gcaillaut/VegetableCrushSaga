@@ -10,6 +10,10 @@
 
 class Game;
 
+///
+/// \brief Vue du jeu
+/// \see View
+///
 class GameView: public View
 {
 	public:

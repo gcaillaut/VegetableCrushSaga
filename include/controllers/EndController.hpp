@@ -5,6 +5,10 @@
 
 class Game;
 
+///
+/// \brief Contrôleur de fin de jeu
+/// \see Controller
+///
 class EndController: public Controller
 {
   public:
@@ -16,7 +20,14 @@ class EndController: public Controller
 	virtual void onLostFocus ();
 	virtual void onGainedFocus ();
 
+	///
+	/// \brief Lorsqu'on choisit de recommencer le jeu
+	///
 	void onRecommencer();
+
+	///
+	/// \brief Lorsqu'on quitte le jeu
+	///
 	void onQuitter();
 };
 

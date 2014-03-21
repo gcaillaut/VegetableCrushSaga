@@ -5,6 +5,10 @@
 
 class Game;
 
+///
+/// \brief Contrôleur du jeu
+/// \see Controller
+///
 class GameController: public Controller
 {
   public:
@@ -16,7 +20,14 @@ class GameController: public Controller
 	virtual void onLostFocus ();
 	virtual void onGainedFocus ();
 
+	///
+	/// \brief Lorsqu'on appuie sur Echap
+	///
 	void onEscape();
+
+	///
+	/// \brief Lorsqu'on quitte le jeu
+	///
 	void onQuit();
 
   private:

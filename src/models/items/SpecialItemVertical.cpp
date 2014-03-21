@@ -25,14 +25,6 @@ void SpecialItemVertical::destroy_callback (Board & board, unsigned int pos)
  		}
 }
 
-SpecialItemVertical *SpecialItemVertical::clone()
-{
-  SpecialItemVertical* item = new SpecialItemVertical(name, value);
-  resetItem(item);
-
-  return item;
-}
-
 void SpecialItemVertical::explode (Board & board, unsigned pos, int offset)
 {
 	if (pos < board.getTotalSize()

@@ -3,13 +3,24 @@
 
 #include <string>
 
+///
+/// \brief Condition de fin de jeu de base
+///
 class Condition
 {
 public:
 	Condition ();
 	virtual ~Condition ();
 
+	///
+	/// \brief Met à jour la condition
+	///
 	virtual void step() = 0;
+
+	///
+	/// \brief Remet la condition à 'value'
+	/// \param value
+	///
 	virtual void reset(int value) = 0;
 
 	operator bool() const;

@@ -12,6 +12,10 @@
 
 class Game;
 
+///
+/// \brief Vue de fin de jeu
+/// \see View
+///
 class EndView: public View
 {
   public:

@@ -5,6 +5,10 @@
 
 class Board;
 
+///
+/// \brief Item spécial horizontal
+/// \see Item
+///
 class SpecialItemHorizontal : public Item
 {
 public:
@@ -13,7 +17,6 @@ public:
 
 	virtual void create_callback(Board & board, unsigned int pos);
 	virtual void destroy_callback(Board & board, unsigned int pos);
- 	virtual SpecialItemHorizontal* clone();
 
 private:
 	void explode(Board & board, unsigned pos, int offset);

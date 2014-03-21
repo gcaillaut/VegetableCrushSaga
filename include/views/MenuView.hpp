@@ -11,6 +11,10 @@
 
 class Game;
 
+///
+/// \brief Vue du menu de pause
+/// \see View
+///
 class MenuView: public View
 {
 	public:
@@ -35,7 +39,6 @@ class MenuView: public View
 		sfg::Desktop sfgDesktop;
 		sfg::Window::Ptr sfgWindow;
 		sfg::Box::Ptr box;
-
 };
 
 #endif // MENU_VIEW_HPP

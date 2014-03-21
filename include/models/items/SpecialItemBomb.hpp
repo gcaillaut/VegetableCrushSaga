@@ -5,6 +5,10 @@
 
 class Board;
 
+///
+/// \brief Item bombe
+/// \see Item
+///
 class SpecialItemBomb : public Item
 {
 public:
@@ -13,7 +17,6 @@ public:
 
 	virtual void create_callback(Board & board, unsigned int pos);
 	virtual void destroy_callback(Board & board, unsigned int pos);
- 	virtual SpecialItemBomb* clone();
 
 private:
 	void explode(Board & board, unsigned pos, unsigned range);

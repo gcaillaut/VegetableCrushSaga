@@ -25,14 +25,6 @@ void SpecialItemHorizontal::destroy_callback (Board & board, unsigned int pos)
  		}
 }
 
-SpecialItemHorizontal *SpecialItemHorizontal::clone()
-{
-  SpecialItemHorizontal* item = new SpecialItemHorizontal(name, value);
-  resetItem(item);
-
-  return item;
-}
-#include <iostream>
 void SpecialItemHorizontal::explode (Board & board, unsigned pos, int offset)
 {
 	if (pos % board.getColsCount() < board.getColsCount() - 1 

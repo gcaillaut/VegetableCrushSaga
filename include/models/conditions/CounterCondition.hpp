@@ -3,9 +3,16 @@
 
 #include "Condition.hpp"
 
+///
+/// \brief Condition de fin de jeu basée sur un nombre de coups
+///
 class CounterCondition: public Condition
 {
 public:
+	///
+	/// \brief Constructeur de la condition
+	/// \param value Valeur de départ
+	///
 	CounterCondition (unsigned int value);
 	virtual ~CounterCondition ();
 

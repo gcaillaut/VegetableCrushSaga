@@ -5,6 +5,12 @@
 
 #include "ItemGenerator.hpp"
 
+///
+/// \brief Générateur uniforme d'item
+/// Chaque item a la même chance d'être généré
+///
+/// \see ItemGenerator
+///
 class UniformItemGenerator : public ItemGenerator
 {
 public:
@@ -13,6 +19,10 @@ public:
 
 	virtual std::unique_ptr<Item> generate ();
 
+	///
+	/// \brief Renvoie un identifiant aléatoire
+	/// \return Identifiant
+	///
 	std::string getRandomItemKey ();
 
 private:

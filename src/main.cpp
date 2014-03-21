@@ -14,6 +14,7 @@
 int main ()
 {
   globals.init();
+  bool first_time = true;
 
   while (globals.isRetrying())
   {
@@ -36,8 +37,10 @@ int main ()
 	globals.addView("End", &endView);
 	globals.addView("Start", &startView);
 
-	globals.setCurrentView("Start");
+	globals.setCurrentView(first_time ? "Start" : "Game");
 	globals.gameLoop();
+
+	first_time = false;
 
 	globals.clearViews();
   }

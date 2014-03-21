@@ -18,15 +18,10 @@ void SpecialItemBomb::create_callback (Board& board, unsigned int pos)
 void SpecialItemBomb::destroy_callback (Board & board, unsigned int pos)
 {
 	if (!destroyed)
-		explode(board, pos, 3);
-}
-
-SpecialItemBomb *SpecialItemBomb::clone()
-{
-  SpecialItemBomb* item = new SpecialItemBomb(name, value);
-  resetItem(item);
-
-  return item;
+	{
+	  destroy();
+	  explode(board, pos, 3);
+	}
 }
 
 void SpecialItemBomb::explode (Board & board, unsigned pos, unsigned range)

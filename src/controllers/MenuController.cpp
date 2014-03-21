@@ -34,10 +34,6 @@ void MenuController::onRetour()
   globals.setCurrentView("Game");
 }
 
-void MenuController::onToggleAnimation()
-{
-}
-
 void MenuController::onQuitter()
 {
   globals.shutdown();

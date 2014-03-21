@@ -20,11 +20,3 @@ void BasicItem::destroy_callback (Board & board, unsigned int pos)
 {
 	
 }
-
-BasicItem *BasicItem::clone()
-{
-  BasicItem* item = new BasicItem(name, value);
-  resetItem(item);
-
-  return item;
-}
